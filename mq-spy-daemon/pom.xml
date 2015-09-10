@@ -1,19 +1,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>pl.baczkowicz.mqspy</groupId>
+	<groupId>pl.baczkowicz.spy</groupId>
 	<artifactId>mq-spy-daemon</artifactId>
 	<version>0.0.1-beta</version>
 
   	<name>mq-spy-daemon</name>
   	<url>http://kamilfb.github.io/mq-spy/</url>
 
-	<!-- 
 	<scm>
-    	<connection>scm:git:/home/kamil/Programming/Git/mqtt-spy-logger/.git</connection>
-        <url>/home/kamil/Programming/Git/mqtt-spy-logger/.git</url>
+    	<connection>scm:git:../.git</connection>
+        <url>../.git</url>
     </scm>
-     -->
      
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -45,6 +43,22 @@
 			<version>0.1.0-beta</version>			 
 		</dependency>
 
+		<!--=== SPRING === -->
+		
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jms</artifactId>
+            <version>4.2.1.RELEASE</version>
+        </dependency>
+        
+        <!--=== JMS providers === -->
+        		
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-all</artifactId>
+            <version>5.12.0</version>
+        </dependency>
+		
 		<!--=== TEST === -->
 	
 		<dependency>
@@ -204,6 +218,13 @@
 			                			<resource>mqtt-spy-common.catalog</resource>
 			                		</dependencyResource>
 			                	</catalog>
+			                	<catalog>
+			                		<dependencyResource>
+			                			<groupId>pl.baczkowicz.mqttspy</groupId>
+			                			<artifactId>mqtt-spy-daemon</artifactId>
+			                			<resource>mqtt-spy-daemon.catalog</resource>
+			                		</dependencyResource>
+			                	</catalog>
 			                </catalogs>
 			                
 			                <episode>false</episode>
@@ -212,6 +233,10 @@
 			                	<episode>
 			                		<groupId>pl.baczkowicz.mqttspy</groupId>
 			                		<artifactId>mqtt-spy-common</artifactId>
+			                	</episode>
+			                	<episode>
+			                		<groupId>pl.baczkowicz.mqttspy</groupId>
+			                		<artifactId>mqtt-spy-daemon</artifactId>
 			                	</episode>
 			                </episodes>
 			                

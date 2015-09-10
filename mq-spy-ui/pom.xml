@@ -1,19 +1,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>pl.baczkowicz.mqspy</groupId>
+	<groupId>pl.baczkowicz.spy</groupId>
 	<artifactId>mq-spy-ui</artifactId>
 	<version>0.0.1-beta</version>
 
   	<name>mq-spy-ui</name>
   	<url>http://kamilfb.github.io/mq-spy/</url>
 
-	<!-- 
-	<scm>
-    	<connection>scm:git:/home/kamil/Programming/Git/mqtt-spy-logger/.git</connection>
-        <url>/home/kamil/Programming/Git/mqtt-spy-logger/.git</url>
+  	<scm>
+    	<connection>scm:git:../.git</connection>
+        <url>../.git</url>
     </scm>
-     -->
      
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

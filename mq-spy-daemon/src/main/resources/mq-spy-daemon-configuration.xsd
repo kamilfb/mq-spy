@@ -24,19 +24,28 @@
 			xmlns:spydc=		"http://baczkowicz.pl/spy/daemon/configuration"
 			xmlns:spycommon=	"http://baczkowicz.pl/spy/common"
 			xmlns:mqttspycommon="http://baczkowicz.pl/mqtt-spy/common"
+			xmlns:mqttspydc=	"http://baczkowicz.pl/mqtt-spy/daemon/configuration"
 			targetNamespace=	"http://baczkowicz.pl/spy/daemon/configuration">
 
 	<xs:import namespace="http://baczkowicz.pl/spy/common" />
 	<xs:import namespace="http://baczkowicz.pl/mqtt-spy/common" />
+	<xs:import namespace="http://baczkowicz.pl/mqtt-spy/daemon/configuration" />
 		
 	<xs:complexType name="DaemonJmsConnectionDetails">
 		<xs:sequence>
 		</xs:sequence>	
 	</xs:complexType>
 	
+	<xs:complexType name="Connectivity">
+		<xs:choice minOccurs="1" maxOccurs="1">			
+			<xs:element name="JmsConnection" 	type="spydc:DaemonJmsConnectionDetails" />
+			<xs:element name="MqttConnection" 	type="mqttspydc:DaemonMqttConnectionDetails" />
+		</xs:choice>
+	</xs:complexType>
+	
 	<xs:complexType name="MqSpyDaemonConfiguration">
 		<xs:sequence>
-			<!-- <xs:element name="Connection" type="mqttspydc:DaemonMqttConnectionDetails" minOccurs="1" maxOccurs="1"/> -->
+			<xs:element name="Connectivity" type="spydc:Connectivity" minOccurs="1" maxOccurs="1"/>
 			<xs:element name="Formatting" type="spycommon:Formatting"	minOccurs="0" maxOccurs="1"/>			
 		</xs:sequence>
 	</xs:complexType>
