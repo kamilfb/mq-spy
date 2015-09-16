@@ -26,10 +26,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import pl.baczkowicz.mqspy.daemon.generated.configuration.MqSpyDaemonConfiguration;
+import pl.baczkowicz.mqttspy.daemon.configuration.MqttSpyDaemonConfigLoader;
 import pl.baczkowicz.mqttspy.daemon.configuration.MqttSpyDaemonConstants;
 import pl.baczkowicz.mqttspy.daemon.configuration.generated.DaemonMqttConnectionDetails;
 import pl.baczkowicz.mqttspy.utils.ConfigurationUtils;
-import pl.baczkowicz.spy.common.generated.ScriptDetails;
+import pl.baczkowicz.spy.common.generated.ProtocolEnum;
 import pl.baczkowicz.spy.configuration.PropertyFileLoader;
 import pl.baczkowicz.spy.exceptions.XMLException;
 import pl.baczkowicz.spy.xml.XMLParser;
@@ -47,6 +48,8 @@ public class ConfigurationLoader extends PropertyFileLoader
 
 	/** Daemon's configuration (once parsed). */
 	private MqSpyDaemonConfiguration configuration;
+	
+	private ProtocolEnum protocol;
 	
 	/**
 	 * Creates the loader. 
@@ -97,21 +100,16 @@ public class ConfigurationLoader extends PropertyFileLoader
 	 */
 	private void populateDefaults()
 	{
-		// Populate MQTT defaults
+		// Check if MQTT has been configured
 		final DaemonMqttConnectionDetails mqttConnection = configuration.getConnectivity().getMqttConnection();
 		
 		if (mqttConnection != null)		
 		{
-			for (final ScriptDetails scriptDetails : mqttConnection.getBackgroundScript())
-			{
-				if (scriptDetails.isRepeat() == null)
-				{
-					scriptDetails.setRepeat(false);
-				}
-			}
-			
+			protocol = ProtocolEnum.MQTT;
 			ConfigurationUtils.populateMessageLogDefaults(mqttConnection.getMessageLog());
-		}
+			MqttSpyDaemonConfigLoader.populateDaemonDefaults(mqttConnection.getBackgroundScript());
+			MqttSpyDaemonConfigLoader.generateClientIdIfMissing(mqttConnection);
+		}				
 	}
 
 	/**
@@ -122,5 +120,10 @@ public class ConfigurationLoader extends PropertyFileLoader
 	public MqSpyDaemonConfiguration getConfiguration()
 	{
 		return configuration;
+	}
+	
+	public ProtocolEnum getProtocol()
+	{
+		return protocol;
 	}
 }

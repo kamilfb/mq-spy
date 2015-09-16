@@ -46,7 +46,20 @@
 	<xs:complexType name="MqSpyDaemonConfiguration">
 		<xs:sequence>
 			<xs:element name="Connectivity" type="spydc:Connectivity" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="RemoteControl" type="spydc:RemoteControl" minOccurs="0" maxOccurs="1"/>
 			<xs:element name="Formatting" type="spycommon:Formatting"	minOccurs="0" maxOccurs="1"/>			
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="RemoteControl">
+		<xs:sequence>
+			<xs:element name="HttpListener" type="spydc:HttpListener" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="HttpListener">
+		<xs:sequence>
+			<xs:element name="Port" type="xs:int" minOccurs="1" maxOccurs="1"/>
 		</xs:sequence>
 	</xs:complexType>
 	

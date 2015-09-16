@@ -10,6 +10,7 @@ package pl.baczkowicz.mqspy.daemon.generated.configuration;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import org.jvnet.jaxb2_commons.lang.Equals;
 import org.jvnet.jaxb2_commons.lang.EqualsStrategy;
@@ -21,18 +22,20 @@ import org.jvnet.jaxb2_commons.lang.JAXBToStringStrategy;
 import org.jvnet.jaxb2_commons.lang.ToString;
 import org.jvnet.jaxb2_commons.lang.ToStringStrategy;
 import org.jvnet.jaxb2_commons.locator.ObjectLocator;
+import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
 
 
 /**
- * <p>Java class for DaemonJmsConnectionDetails complex type.
+ * <p>Java class for RemoteControl complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="DaemonJmsConnectionDetails"&gt;
+ * &lt;complexType name="RemoteControl"&gt;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
+ *         &lt;element name="HttpListener" type="{http://baczkowicz.pl/spy/daemon/configuration}HttpListener" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -42,11 +45,39 @@ import org.jvnet.jaxb2_commons.locator.ObjectLocator;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "DaemonJmsConnectionDetails")
-public class DaemonJmsConnectionDetails
+@XmlType(name = "RemoteControl", propOrder = {
+    "httpListener"
+})
+public class RemoteControl
     implements Equals, HashCode, ToString
 {
 
+    @XmlElement(name = "HttpListener")
+    protected HttpListener httpListener;
+
+    /**
+     * Gets the value of the httpListener property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link HttpListener }
+     *     
+     */
+    public HttpListener getHttpListener() {
+        return httpListener;
+    }
+
+    /**
+     * Sets the value of the httpListener property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link HttpListener }
+     *     
+     */
+    public void setHttpListener(HttpListener value) {
+        this.httpListener = value;
+    }
 
     public String toString() {
         final ToStringStrategy strategy = JAXBToStringStrategy.INSTANCE;
@@ -63,15 +94,30 @@ public class DaemonJmsConnectionDetails
     }
 
     public StringBuilder appendFields(ObjectLocator locator, StringBuilder buffer, ToStringStrategy strategy) {
+        {
+            HttpListener theHttpListener;
+            theHttpListener = this.getHttpListener();
+            strategy.appendField(locator, this, "httpListener", buffer, theHttpListener);
+        }
         return buffer;
     }
 
     public boolean equals(ObjectLocator thisLocator, ObjectLocator thatLocator, Object object, EqualsStrategy strategy) {
-        if (!(object instanceof DaemonJmsConnectionDetails)) {
+        if (!(object instanceof RemoteControl)) {
             return false;
         }
         if (this == object) {
             return true;
+        }
+        final RemoteControl that = ((RemoteControl) object);
+        {
+            HttpListener lhsHttpListener;
+            lhsHttpListener = this.getHttpListener();
+            HttpListener rhsHttpListener;
+            rhsHttpListener = that.getHttpListener();
+            if (!strategy.equals(LocatorUtils.property(thisLocator, "httpListener", lhsHttpListener), LocatorUtils.property(thatLocator, "httpListener", rhsHttpListener), lhsHttpListener, rhsHttpListener)) {
+                return false;
+            }
         }
         return true;
     }
@@ -83,6 +129,11 @@ public class DaemonJmsConnectionDetails
 
     public int hashCode(ObjectLocator locator, HashCodeStrategy strategy) {
         int currentHashCode = 1;
+        {
+            HttpListener theHttpListener;
+            theHttpListener = this.getHttpListener();
+            currentHashCode = strategy.hashCode(LocatorUtils.property(locator, "httpListener", theHttpListener), currentHashCode, theHttpListener);
+        }
         return currentHashCode;
     }
 

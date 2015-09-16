@@ -10,6 +10,7 @@ package pl.baczkowicz.mqspy.daemon.generated.configuration;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import org.jvnet.jaxb2_commons.lang.Equals;
 import org.jvnet.jaxb2_commons.lang.EqualsStrategy;
@@ -21,18 +22,20 @@ import org.jvnet.jaxb2_commons.lang.JAXBToStringStrategy;
 import org.jvnet.jaxb2_commons.lang.ToString;
 import org.jvnet.jaxb2_commons.lang.ToStringStrategy;
 import org.jvnet.jaxb2_commons.locator.ObjectLocator;
+import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
 
 
 /**
- * <p>Java class for DaemonJmsConnectionDetails complex type.
+ * <p>Java class for HttpListener complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="DaemonJmsConnectionDetails"&gt;
+ * &lt;complexType name="HttpListener"&gt;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
+ *         &lt;element name="Port" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -42,11 +45,31 @@ import org.jvnet.jaxb2_commons.locator.ObjectLocator;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "DaemonJmsConnectionDetails")
-public class DaemonJmsConnectionDetails
+@XmlType(name = "HttpListener", propOrder = {
+    "port"
+})
+public class HttpListener
     implements Equals, HashCode, ToString
 {
 
+    @XmlElement(name = "Port")
+    protected int port;
+
+    /**
+     * Gets the value of the port property.
+     * 
+     */
+    public int getPort() {
+        return port;
+    }
+
+    /**
+     * Sets the value of the port property.
+     * 
+     */
+    public void setPort(int value) {
+        this.port = value;
+    }
 
     public String toString() {
         final ToStringStrategy strategy = JAXBToStringStrategy.INSTANCE;
@@ -63,15 +86,30 @@ public class DaemonJmsConnectionDetails
     }
 
     public StringBuilder appendFields(ObjectLocator locator, StringBuilder buffer, ToStringStrategy strategy) {
+        {
+            int thePort;
+            thePort = this.getPort();
+            strategy.appendField(locator, this, "port", buffer, thePort);
+        }
         return buffer;
     }
 
     public boolean equals(ObjectLocator thisLocator, ObjectLocator thatLocator, Object object, EqualsStrategy strategy) {
-        if (!(object instanceof DaemonJmsConnectionDetails)) {
+        if (!(object instanceof HttpListener)) {
             return false;
         }
         if (this == object) {
             return true;
+        }
+        final HttpListener that = ((HttpListener) object);
+        {
+            int lhsPort;
+            lhsPort = this.getPort();
+            int rhsPort;
+            rhsPort = that.getPort();
+            if (!strategy.equals(LocatorUtils.property(thisLocator, "port", lhsPort), LocatorUtils.property(thatLocator, "port", rhsPort), lhsPort, rhsPort)) {
+                return false;
+            }
         }
         return true;
     }
@@ -83,6 +121,11 @@ public class DaemonJmsConnectionDetails
 
     public int hashCode(ObjectLocator locator, HashCodeStrategy strategy) {
         int currentHashCode = 1;
+        {
+            int thePort;
+            thePort = this.getPort();
+            currentHashCode = strategy.hashCode(LocatorUtils.property(locator, "port", thePort), currentHashCode, thePort);
+        }
         return currentHashCode;
     }
 

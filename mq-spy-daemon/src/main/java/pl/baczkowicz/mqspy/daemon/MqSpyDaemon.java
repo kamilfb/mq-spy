@@ -21,13 +21,19 @@ package pl.baczkowicz.mqspy.daemon;
 
 import java.io.File;
 
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.DefaultServlet;
+import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import pl.baczkowicz.mqspy.daemon.configuration.ConfigurationLoader;
 import pl.baczkowicz.mqspy.daemon.generated.configuration.MqSpyDaemonConfiguration;
+import pl.baczkowicz.mqspy.daemon.remote.RunScriptRequestHandler;
 import pl.baczkowicz.mqttspy.daemon.MqttSpyDaemon;
 import pl.baczkowicz.mqttspy.daemon.configuration.generated.DaemonMqttConnectionDetails;
+import pl.baczkowicz.spy.common.generated.ProtocolEnum;
 import pl.baczkowicz.spy.configuration.PropertyFileLoader;
 import pl.baczkowicz.spy.exceptions.SpyException;
 import pl.baczkowicz.spy.exceptions.XMLException;
@@ -41,6 +47,8 @@ public class MqSpyDaemon extends MqttSpyDaemon
 	private final static Logger logger = LoggerFactory.getLogger(MqSpyDaemon.class);
 	
 	private ConfigurationLoader loader;
+
+	private Server jettyServer;
 
 	// private MqttScriptIO scriptIO;
 	
@@ -87,19 +95,56 @@ public class MqSpyDaemon extends MqttSpyDaemon
 	 */
 	protected void loadAndRun(final MqSpyDaemonConfiguration configuration) throws SpyException
 	{			
-		// TODO:
-		// Retrieve connection details
-		final DaemonMqttConnectionDetails connectionSettings = configuration.getConnectivity().getMqttConnection();
+		// Set up MQTT
+		if (ProtocolEnum.MQTT.equals(loader.getProtocol()))
+		{
+			// Retrieve connection details
+			final DaemonMqttConnectionDetails connectionSettings = configuration.getConnectivity().getMqttConnection();
 
-		configureMqtt(connectionSettings);
-		runScripts(connectionSettings.getBackgroundScript(), connectionSettings.getTestCases(), connectionSettings.getRunningMode());
+			configureMqtt(connectionSettings);
+			runScripts(connectionSettings.getBackgroundScript(), connectionSettings.getTestCases(), connectionSettings.getRunningMode());
+		}
+		
+		// Set up Remote Control
+		configureRemoteControl(configuration);
+	}
+	
+	private void configureRemoteControl(final MqSpyDaemonConfiguration configuration)
+	{
+		if (configuration.getRemoteControl() != null && configuration.getRemoteControl().getHttpListener() != null)
+		{
+			try
+			{
+				jettyServer = new Server(configuration.getRemoteControl().getHttpListener().getPort());
+
+				final ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
+		        context.setContextPath("/");
+		        
+		        final DefaultServlet defaultServlet = new DefaultServlet();
+		        final ServletHolder holderPwd = new ServletHolder("default", defaultServlet);
+		        holderPwd.setInitParameter("resourceBase", "./src/main/webapp/");
+		        context.addServlet(holderPwd, "/*");
+		        
+		        context.addServlet(new ServletHolder(new RunScriptRequestHandler(this)), "/runScript");
+		        
+		        jettyServer.setHandler(context);
+		        jettyServer.start();
+			}
+			catch (Exception e)
+			{
+				logger.error("Cannot start the HTTP listener on " + configuration.getRemoteControl().getHttpListener().getPort(), e);
+			}			
+		}
 	}
 	
 	protected boolean canPublish()
 	{
-		// TODO:
-		// return mqttConnection.canPublish();
-		return true;
+		if (ProtocolEnum.MQTT.equals(loader.getProtocol()))
+		{
+			return super.mqttConnection.canPublish();
+		}
+
+		return false;
 	}
 	
 	/**
@@ -109,8 +154,22 @@ public class MqSpyDaemon extends MqttSpyDaemon
 	{
 		waitForScripts();
 		
-		// TODO:
-		// stopMqtt();
+		if (ProtocolEnum.MQTT.equals(loader.getProtocol()))
+		{
+			super.stopMqtt();
+		}
+		
+		if (jettyServer != null)			
+		{
+			try
+			{
+				jettyServer.stop();
+			}
+			catch (Exception e)
+			{
+				logger.error("Can't stop the HTTP server", e);
+			}
+		}
 		
 		displayGoodbyeMessage();
 	}	
