@@ -21,16 +21,12 @@ package pl.baczkowicz.mqspy.daemon;
 
 import java.io.File;
 
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.servlet.DefaultServlet;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import pl.baczkowicz.mqspy.daemon.configuration.ConfigurationLoader;
 import pl.baczkowicz.mqspy.daemon.generated.configuration.MqSpyDaemonConfiguration;
-import pl.baczkowicz.mqspy.daemon.remote.RunScriptRequestHandler;
+import pl.baczkowicz.mqspy.daemon.remote.HttpListener;
 import pl.baczkowicz.mqttspy.daemon.MqttSpyDaemon;
 import pl.baczkowicz.mqttspy.daemon.configuration.generated.DaemonMqttConnectionDetails;
 import pl.baczkowicz.spy.common.generated.ProtocolEnum;
@@ -48,8 +44,7 @@ public class MqSpyDaemon extends MqttSpyDaemon
 	
 	private ConfigurationLoader loader;
 
-	private Server jettyServer;
-
+	private HttpListener httpListener;
 	// private MqttScriptIO scriptIO;
 	
 	/**
@@ -106,36 +101,11 @@ public class MqSpyDaemon extends MqttSpyDaemon
 		}
 		
 		// Set up Remote Control
-		configureRemoteControl(configuration);
+		httpListener = new HttpListener();
+		httpListener.configureRemoteControl(configuration, this);
 	}
 	
-	private void configureRemoteControl(final MqSpyDaemonConfiguration configuration)
-	{
-		if (configuration.getRemoteControl() != null && configuration.getRemoteControl().getHttpListener() != null)
-		{
-			try
-			{
-				jettyServer = new Server(configuration.getRemoteControl().getHttpListener().getPort());
-
-				final ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-		        context.setContextPath("/");
-		        
-		        final DefaultServlet defaultServlet = new DefaultServlet();
-		        final ServletHolder holderPwd = new ServletHolder("default", defaultServlet);
-		        holderPwd.setInitParameter("resourceBase", "./src/main/webapp/");
-		        context.addServlet(holderPwd, "/*");
-		        
-		        context.addServlet(new ServletHolder(new RunScriptRequestHandler(this)), "/runScript");
-		        
-		        jettyServer.setHandler(context);
-		        jettyServer.start();
-			}
-			catch (Exception e)
-			{
-				logger.error("Cannot start the HTTP listener on " + configuration.getRemoteControl().getHttpListener().getPort(), e);
-			}			
-		}
-	}
+	
 	
 	protected boolean canPublish()
 	{
@@ -159,20 +129,10 @@ public class MqSpyDaemon extends MqttSpyDaemon
 			super.stopMqtt();
 		}
 		
-		if (jettyServer != null)			
-		{
-			try
-			{
-				jettyServer.stop();
-			}
-			catch (Exception e)
-			{
-				logger.error("Can't stop the HTTP server", e);
-			}
-		}
+		httpListener.stop();		
 		
 		displayGoodbyeMessage();
-	}	
+	}
 	
 	// TODO
 	/**

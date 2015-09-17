@@ -11,7 +11,7 @@ function publishTime()
 	{
 		var currentTime = TIME_WITH_SECONDS_SDF.format(new Date());
 		
-		mqtt.publish("/time/", currentTime, 0, false);
+		mqtt.publish("time", currentTime, 0, false);
 
 		// Sleep for 1 second and handle a stop request 
 		try 
@@ -23,7 +23,7 @@ function publishTime()
 			return false;				
 		}
 		
-		// Keep mqtt-spy informed the script is still running
+		// Keep spy informed the script is still running
 		spy.touch();
 	}
 

@@ -44,7 +44,7 @@ public class MqSpyDaemonTest
 			ThreadingUtils.sleep(1000);
 		}
 		
-		ThreadingUtils.sleep(20000);
+		ThreadingUtils.sleep(60000);
 		
 		daemon.stop();
 	}

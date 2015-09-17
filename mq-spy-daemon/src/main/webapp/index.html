@@ -7,12 +7,49 @@
 		
 		<p>You can now use HTTP GET requests to issue control commands to the daemon.</p>
 		
+		<p>Visit <a href="http://github.com/kamilfb/mq-spy/wiki">https://github.com/kamilfb/mq-spy/wiki</a> for more information.</p>
+		
 		<p>The available commands are:</p>
 		
-		<li>runScript, taking the script location ('name' parameter)</li>
-		<li>runScript, taking the script location ('name' parameter), whether to run asynchronously ('async' parameter) and passing all parameters as a map</li>
-		<li>runScriptFunction</li>
+		<table border="1">
+			<thead>
+				<tr><th>Command</th><th>Details</th><th>Parameters</th><th>Example</th></tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>setScriptsLocation</td>
+					<td>Sets the location where all scripts are stored - otherwise use full paths for all scripts.</td>
+					<td>directory</td>
+					<td><a href="setScriptsLocation?directory=/mq-spy-daemon/scripts">/setScriptsLocation?directory=/mq-spy-daemon/scripts</a></td>
+				</tr>
+				<tr>
+					<td>runScript</td>
+					<td>Runs the given script.</td>
+					<td>name</td>
+					<td><a href="runScript?name=publish_time.js">/runScript?name=publish_time.js</a></td>
+				</tr>
+				<tr>
+					<td>runScript</td>
+					<td>Runs the given script; passes all parameters as the 'args' map.</td>
+					<td>name, async, parameters</td>
+					<td><a href="runScript?name=publish_time.js&async=true&custom_param=test_value">/runScript?name=publish_time.js&async=true&custom_param=test_value</a></td>
+				</tr>
+				<tr>
+					<td>runScriptFunction</td>
+					<td>Runs the given script's function; passes all parameters as the 'args' map.</td>
+					<td>name, parameters</td>
+					<td><a href="runScriptFunction?name=publish_time_on_request.js&function=publishTime">/runScriptFunction?name=publish_time_on_request.js&function=publishTime</a></td>
+				</tr>
+				<tr>
+					<td>stop</td>
+					<td>Stops mq-spy-daemon.</td>
+					<td></td>
+					<td><a href="stop">/stop</a></td>
+				</tr>
+			</tbody>
+		</table>
 		
+		<p>Notes: the name parameter is the full name of the script, including the path (unless already set).</p>
 		</center>
 	</body>
 </html>
