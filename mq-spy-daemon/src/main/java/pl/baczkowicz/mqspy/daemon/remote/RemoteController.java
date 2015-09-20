@@ -21,21 +21,20 @@ package pl.baczkowicz.mqspy.daemon.remote;
 
 import java.io.File;
 
-import pl.baczkowicz.mqspy.daemon.MqSpyDaemon;
-import pl.baczkowicz.spy.daemon.BaseDaemon;
+import pl.baczkowicz.spy.daemon.IDaemon;
 
 public class RemoteController
 {
-	private MqSpyDaemon daemon;
+	private IDaemon daemon;
 	
 	private String scriptsLocation;
 
-	public RemoteController(MqSpyDaemon daemon)
+	public RemoteController(final IDaemon daemon)
 	{
 		this.daemon = daemon;
 	}
 
-	public BaseDaemon getDaemon()
+	public IDaemon getDaemon()
 	{
 		return daemon;
 	}

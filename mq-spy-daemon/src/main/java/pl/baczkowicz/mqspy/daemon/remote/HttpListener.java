@@ -32,6 +32,7 @@ import pl.baczkowicz.mqspy.daemon.remote.handlers.RunScriptFunctionRequestHandle
 import pl.baczkowicz.mqspy.daemon.remote.handlers.RunScriptRequestHandler;
 import pl.baczkowicz.mqspy.daemon.remote.handlers.SetScriptsLocationRequestHandler;
 import pl.baczkowicz.mqspy.daemon.remote.handlers.StopRequestHandler;
+import pl.baczkowicz.mqspy.daemon.remote.handlers.StopScriptRequestHandler;
 
 public class HttpListener
 {
@@ -58,9 +59,10 @@ public class HttpListener
 		        holderPwd.setInitParameter("resourceBase", "./src/main/webapp/");
 		        context.addServlet(holderPwd, "/*");
 		        
+		        context.addServlet(new ServletHolder(new SetScriptsLocationRequestHandler(controller)), "/setScriptsLocation");
 		        context.addServlet(new ServletHolder(new RunScriptRequestHandler(controller)), "/runScript");
-		        context.addServlet(new ServletHolder(new RunScriptFunctionRequestHandler(controller)), "/runScriptFunction");
-		        context.addServlet(new ServletHolder(new SetScriptsLocationRequestHandler(controller)), "/setScriptsLocation");		        
+		        context.addServlet(new ServletHolder(new RunScriptFunctionRequestHandler(controller)), "/runScriptFunction");	
+		        context.addServlet(new ServletHolder(new StopScriptRequestHandler(controller)), "/stopScript");
 		        context.addServlet(new ServletHolder(new StopRequestHandler(controller)), "/stop");
 		        
 		        jettyServer.setHandler(context);
