@@ -1,0 +1,1 @@
+PUBLIC "http://baczkowicz.pl/spy/common" "maven:pl.baczkowicz.mqttspy:mqtt-spy-common!/spy-common.xsd"
