@@ -41,12 +41,13 @@ public class SetScriptsLocationRequestHandler extends BaseRequestHandler
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
 	{
+		setVerbose(true);
 		resp.setStatus(HttpStatus.OK_200);		
-		resp.getWriter().println("Received: " + req.getParameterMap());
+		logMessage(resp, "Received: " + req.getParameterMap());
 				
 		final String directory = req.getParameter("directory");
 		controller.setScriptsLocation(directory);		
 
-		resp.getWriter().println("Location set to: " + directory);		
+		logMessage(resp, "Location set to: " + directory);		
 	}
 }

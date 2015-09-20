@@ -44,12 +44,14 @@ public class RunScriptFunctionRequestHandler extends BaseRequestHandler
 	}
 
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
+	protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException
 	{
 		try
 		{
+			checkOfIsVerbose(req);			
 			resp.setStatus(HttpStatus.OK_200);
-			resp.getWriter().println("Received: " + req.getParameterMap());
+			
+			logMessage(resp, "Received: " + req.getParameterMap());			
 			
 			final String scriptName = req.getParameter("name");
 			final String functionName = req.getParameter("function");
@@ -60,26 +62,32 @@ public class RunScriptFunctionRequestHandler extends BaseRequestHandler
 				
 				if (scriptLocation == null)
 				{
-					resp.getWriter().println("Invalid request: file " + scriptName + " does not exist");
+					logMessage(resp, "Invalid request: file " + scriptName + " does not exist");					
 					return;
 				}
 				
-				resp.getWriter().println("Attemping to run script function: " + scriptLocation + "/" + functionName);						
+				logMessage(resp, "Attemping to run script function: " + scriptLocation + "/" + functionName);								
 				final Object result = controller.getDaemon().runScriptFunction(scriptLocation, functionName, getParameterMap(req));
 				
-				resp.getWriter().println("Result = " + result);
+				logMessage(resp, "Result = " + result);
+				
+				if (!isVerbose)
+				{
+					// Return the result so that it can be processed
+					resp.getWriter().print(result);
+				}
 			}
 			else
 			{		
-				resp.getWriter().println("Invalid request: missing parameter 'name' and 'function'");
+				logMessage(resp, "Invalid request: missing parameter 'name' and 'function'");
 			}
 		}
 		catch (Exception e)
 		{
 			logger.error("Error handling the request", e);
 			resp.setStatus(HttpStatus.OK_200);
-			resp.getWriter().println("Invalid request: internal error");
-			resp.getWriter().println(e);
+			logMessage(resp, "Invalid request: internal error");
+			logMessage(resp, e.getMessage());
 		}
 	}
 }

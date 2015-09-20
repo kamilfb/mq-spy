@@ -43,7 +43,12 @@ public class RemoteController
 	{
 		if (scriptsLocation != null)
 		{
-			final String path = scriptsLocation + name;
+			String scriptName = name;
+			if (name.startsWith(System.getProperty("file.separator")))
+			{
+				scriptName = name.substring(1);
+			}
+			final String path = scriptsLocation + scriptName;
 			
 			if (new File(path).exists())
 			{

@@ -41,6 +41,7 @@ public class StopRequestHandler extends BaseRequestHandler
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
 	{
+		setVerbose(true);
 		resp.setStatus(HttpStatus.OK_200);		
 				
 		new Thread(new Runnable()
@@ -60,6 +61,6 @@ public class StopRequestHandler extends BaseRequestHandler
 			}
 		}).start();			
 
-		resp.getWriter().println("Stopping mq-spy-daemon in 5 seconds...");		
+		logMessage(resp, "Stopping mq-spy-daemon in 5 seconds...");		
 	}
 }

@@ -41,8 +41,9 @@ public class StopScriptRequestHandler extends BaseRequestHandler
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
 	{
+		setVerbose(true);
 		resp.setStatus(HttpStatus.OK_200);		
-		resp.getWriter().println("Received: " + req.getParameterMap());
+		logMessage(resp, "Received: " + req.getParameterMap());
 		
 		final String scriptName = req.getParameter("name");
 		
@@ -52,7 +53,7 @@ public class StopScriptRequestHandler extends BaseRequestHandler
 			
 			if (scriptLocation == null)
 			{
-				resp.getWriter().println("Invalid request: file " + scriptName + " does not exist");
+				logMessage(resp, "Invalid request: file " + scriptName + " does not exist");
 				return;
 			}
 			
@@ -60,7 +61,7 @@ public class StopScriptRequestHandler extends BaseRequestHandler
 		}
 		else
 		{		
-			resp.getWriter().println("Invalid request: missing 'name' parameter");
+			logMessage(resp, "Invalid request: missing 'name' parameter");
 		}
 	}
 }

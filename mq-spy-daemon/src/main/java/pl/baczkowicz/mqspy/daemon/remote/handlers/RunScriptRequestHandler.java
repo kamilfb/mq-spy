@@ -41,8 +41,9 @@ public class RunScriptRequestHandler extends BaseRequestHandler
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
 	{
+		setVerbose(true);
 		resp.setStatus(HttpStatus.OK_200);		
-		resp.getWriter().println("Received: " + req.getParameterMap());
+		logMessage(resp, "Received: " + req.getParameterMap());
 		
 		final String scriptName = req.getParameter("name");
 		final String async = req.getParameter("async");
@@ -53,24 +54,24 @@ public class RunScriptRequestHandler extends BaseRequestHandler
 			
 			if (scriptLocation == null)
 			{
-				resp.getWriter().println("Invalid request: file " + scriptName + " does not exist");
+				logMessage(resp, "Invalid request: file " + scriptName + " does not exist");
 				return;
 			}
 			
 			if (async != null)
 			{
-				resp.getWriter().println("Attemping to run script with parameters: " + scriptLocation);
+				logMessage(resp, "Attemping to run script with parameters: " + scriptLocation);
 				controller.getDaemon().runScript(scriptLocation, Boolean.valueOf(async), getParameterMap(req));
 			}
 			else
 			{
-				resp.getWriter().println("Attemping to run script: " + scriptLocation);
+				logMessage(resp, "Attemping to run script: " + scriptLocation);
 				controller.getDaemon().runScript(scriptLocation);				
 			}
 		}
 		else
 		{		
-			resp.getWriter().println("Invalid request: missing 'name' parameter");
+			logMessage(resp, "Invalid request: missing 'name' parameter");
 		}
 	}
 }
