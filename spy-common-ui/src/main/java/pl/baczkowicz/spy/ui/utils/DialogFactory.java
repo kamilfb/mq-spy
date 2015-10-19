@@ -36,7 +36,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -125,8 +124,8 @@ public class DialogFactory
 		dialog.setTitle(title);
 		dialog.setHeaderText(header);
 
-		// Set the icon
-		dialog.setGraphic(new ImageView(DialogFactory.class.getResource("/images/login.png").toString()));
+		// Set the icon 
+		dialog.setGraphic(UiUtils.createImage(DialogFactory.class.getResource("/images/large/dialog-password.png").toString(), 48));
 
 		// Set the button types
 		final ButtonType loginButtonType = new ButtonType("Connect", ButtonData.OK_DONE);
