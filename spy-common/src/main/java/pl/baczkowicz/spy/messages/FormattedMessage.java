@@ -27,7 +27,14 @@ import pl.baczkowicz.spy.common.generated.FormatterDetails;
  * Represents a formatted message, e.g. received on a topic.
  */
 public abstract class FormattedMessage extends BaseMessage
-{
+{	
+	/** The first matching subscription. */ 
+	private String subscription;
+
+	private FormatterDetails lastUsedFormatter;
+	
+	private String formattedPayload;
+
 	public FormattedMessage(final long id, final String topic)
 	{
 		super(id, topic);
@@ -37,11 +44,17 @@ public abstract class FormattedMessage extends BaseMessage
 	{
 		super(id, topic, payload, date);
 	}
-
-	private FormatterDetails lastUsedFormatter;
 	
-	private String formattedPayload;
+	public String getSubscription()
+	{
+		return subscription;
+	}
 
+	public void setSubscription(final String subscription)
+	{
+		this.subscription = subscription;
+	}
+	
 	public FormatterDetails getLastUsedFormatter()
 	{
 		return lastUsedFormatter;

@@ -24,6 +24,13 @@
 			xmlns:spycommon="http://baczkowicz.pl/spy/common"
 			targetNamespace="http://baczkowicz.pl/spy/common">
 			
+	<xs:complexType name="Property">
+		<xs:sequence>
+       		<xs:element name="Name" 	type="xs:string" 	/>
+       		<xs:element name="Value"	type="xs:string" 	/>
+   		</xs:sequence>
+	</xs:complexType>		
+	
 	<!-- ==================== -->
 	<!-- === CONNECTIVITY === -->
 	<!-- ==================== -->
