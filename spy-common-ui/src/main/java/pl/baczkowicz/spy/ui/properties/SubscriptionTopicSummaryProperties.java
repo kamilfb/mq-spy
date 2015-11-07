@@ -17,7 +17,7 @@
  *    Kamil Baczkowicz - initial API and implementation and/or initial documentation
  *    
  */
-package pl.baczkowicz.mqttspy.ui.properties;
+package pl.baczkowicz.spy.ui.properties;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;

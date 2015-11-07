@@ -24,10 +24,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import pl.baczkowicz.mqttspy.ui.properties.SubscriptionTopicSummaryProperties;
 import pl.baczkowicz.spy.common.generated.FormatterDetails;
 import pl.baczkowicz.spy.formatting.FormattingManager;
 import pl.baczkowicz.spy.messages.FormattedMessage;
+import pl.baczkowicz.spy.ui.properties.SubscriptionTopicSummaryProperties;
 
 /**
  * This class provides a direct feed to the topic summary table, by exposing the observable list.

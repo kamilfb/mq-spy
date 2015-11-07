@@ -17,35 +17,29 @@
  *    Kamil Baczkowicz - initial API and implementation and/or initial documentation
  *    
  */
-package pl.baczkowicz.mqttspy.ui.properties;
-
-import javafx.beans.property.SimpleStringProperty;
+package pl.baczkowicz.spy.ui.scripts;
 
 /**
- * Property for FX controls (e.g. table) containing a topic.
+ * This defines the type of script.
  */
-public class BaseTopicProperty
+public enum ScriptTypeEnum
 {
-	/** Topic as string property. */
-	private SimpleStringProperty topic;
+	PUBLICATION("Script folder"), SUBSCRIPTION("Subscription"), BACKGROUND("Predefined");
 	
-	/**
-	 * Creates the BaseTopicProperty object with the provided topic value.
-	 * 
-	 * @param topic The topic to set
-	 */
-	public BaseTopicProperty(final String topic)
+	private final String name;
+
+	private ScriptTypeEnum(String s)
 	{
-		this.topic = new SimpleStringProperty(topic);
+		name = s;
 	}
-	
-	/**
-	 * The topic property.
-	 * 
-	 * @return The topic property as SimpleStringProperty
-	 */
-	public SimpleStringProperty topicProperty()
+
+	public boolean equalsName(String otherName)
 	{
-		return this.topic;
+		return (otherName == null) ? false : name.equals(otherName);
+	}
+
+	public String toString()
+	{
+		return name;
 	}
 }

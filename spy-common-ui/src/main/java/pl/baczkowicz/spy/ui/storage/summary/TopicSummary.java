@@ -26,10 +26,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import pl.baczkowicz.mqttspy.ui.properties.SubscriptionTopicSummaryProperties;
 import pl.baczkowicz.spy.common.generated.FormatterDetails;
 import pl.baczkowicz.spy.messages.FormattedMessage;
 import pl.baczkowicz.spy.messages.IBaseMessage;
+import pl.baczkowicz.spy.ui.properties.SubscriptionTopicSummaryProperties;
 
 /**
  * This class is responsible for managing counts of messages for each topic. It
