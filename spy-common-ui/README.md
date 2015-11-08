@@ -50,20 +50,17 @@ Oxygen Icons (version 4.3.1, CC-BY-SA 3.0; from the Open Icon Library):
 	
 	* search.png
 	* login.png
-
-Font Awesome (CC-BY 3.0)
-
-	 * lock_yes.png
-	 * lock_no.png
      
 Authored by Kamil Baczkowicz:
 
-    * auth-yes.png
-    * auth-none.png
-    * filter.png 				(modified Oxygen Icon)
-    * pause.png 				(modified Oxygen Icon)
-    * play.png 				(modified Oxygen Icon)  
-    * testcase_skipped.png	(modified Oxygen Icon)
-    * mail-forward-6 			(modified Oxygen Icon)
-    * mail-receive-2 			(modified Oxygen Icon)
+	* auth-yes.png
+	* auth-none.png
+	* lock_yes.png
+	* lock_no.png    
+	* filter.png 				(modified Oxygen Icon)
+	* pause.png 				(modified Oxygen Icon)
+	* play.png 				(modified Oxygen Icon)  
+	* testcase_skipped.png	(modified Oxygen Icon)
+	* mail-forward-6 			(modified Oxygen Icon)
+	* mail-receive-2 			(modified Oxygen Icon)
 	 
