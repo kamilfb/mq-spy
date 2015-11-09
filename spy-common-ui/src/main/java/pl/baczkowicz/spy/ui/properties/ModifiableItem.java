@@ -1,6 +1,6 @@
 /***********************************************************************************
  * 
- * Copyright (c) 2014 Kamil Baczkowicz
+ * Copyright (c) 2015 Kamil Baczkowicz
  * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -17,22 +17,21 @@
  *    Kamil Baczkowicz - initial API and implementation and/or initial documentation
  *    
  */
-package pl.baczkowicz.spy.ui.utils;
+package pl.baczkowicz.spy.ui.properties;
 
-import javafx.scene.input.Clipboard;
-import javafx.scene.input.ClipboardContent;
+import pl.baczkowicz.spy.common.generated.ConnectionGroupReference;
 
-/**
- * General purpose utilities.
- */
-public class UiUtils
+public interface ModifiableItem
 {
-	public final static String MODIFIED_ITEM = "* ";
+	boolean isModified();
 	
-	public static void copyToClipboard(final String value)
-	{
-		final ClipboardContent content = new ClipboardContent();
-		content.putString(value);
-		Clipboard.getSystemClipboard().setContent(content);
-	}
+	String getName();
+	
+	String getID();
+
+	void setName(final String newName);
+
+	void setGroupingModified(boolean modified);
+
+	void setGroup(ConnectionGroupReference connectionGroupReference);
 }

@@ -1,6 +1,6 @@
 /***********************************************************************************
  * 
- * Copyright (c) 2014 Kamil Baczkowicz
+ * Copyright (c) 2015 Kamil Baczkowicz
  * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -17,22 +17,9 @@
  *    Kamil Baczkowicz - initial API and implementation and/or initial documentation
  *    
  */
-package pl.baczkowicz.spy.ui.utils;
+package pl.baczkowicz.spy.ui.events.observers;
 
-import javafx.scene.input.Clipboard;
-import javafx.scene.input.ClipboardContent;
-
-/**
- * General purpose utilities.
- */
-public class UiUtils
+public interface ItemsReorderedObserver
 {
-	public final static String MODIFIED_ITEM = "* ";
-	
-	public static void copyToClipboard(final String value)
-	{
-		final ClipboardContent content = new ClipboardContent();
-		content.putString(value);
-		Clipboard.getSystemClipboard().setContent(content);
-	}
+	void onItemsReordered();
 }
