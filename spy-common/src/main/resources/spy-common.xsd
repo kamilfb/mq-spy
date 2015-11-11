@@ -34,6 +34,27 @@
 	<!-- ==================== -->
 	<!-- === CONNECTIVITY === -->
 	<!-- ==================== -->
+
+	<xs:complexType name="ConnectionGroup">
+		<xs:sequence>			
+			<xs:element name="ID" 			type="xs:ID" />
+			<xs:element name="Name" 		type="xs:string" />		
+			<xs:element name="Subgroups" 	type="spycommon:ConnectionGroupReference" 	minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="Connections" 	type="spycommon:ConnectionReference" 		minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>	
+	
+	<xs:complexType name="ConnectionGroupReference">
+		<xs:sequence>			
+			<xs:element name="Reference" 			type="xs:IDREF" />
+		</xs:sequence>
+	</xs:complexType>	
+	
+	<xs:complexType name="ConnectionReference">
+		<xs:sequence>			
+			<xs:element name="Reference" 			type="xs:IDREF" />
+		</xs:sequence>
+	</xs:complexType>	
 	
 	<xs:simpleType name="ProtocolEnum">
 		<xs:restriction base="xs:string">

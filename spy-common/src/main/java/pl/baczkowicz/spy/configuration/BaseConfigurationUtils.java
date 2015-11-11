@@ -32,9 +32,11 @@ import pl.baczkowicz.spy.utils.ConversionUtils;
 
 public class BaseConfigurationUtils
 {
-	private final static Logger logger = LoggerFactory.getLogger(BaseConfigurationUtils.class);
+	public static final String DEFAULT_GROUP = "default_group";
 	
 	public final static int DEFAULT_RECONNECTION_INTERVAL = 5000;
+	
+	private final static Logger logger = LoggerFactory.getLogger(BaseConfigurationUtils.class);
 		
 	public static void streamToFile (final InputStream input, final File output) throws IOException 
 	{            
