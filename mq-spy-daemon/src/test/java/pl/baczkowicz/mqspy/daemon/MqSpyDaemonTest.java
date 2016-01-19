@@ -32,11 +32,11 @@ public class MqSpyDaemonTest
 	private final static Logger logger = LoggerFactory.getLogger(MqSpyDaemonTest.class);
 	
 	@Test
-	public void testBasicConfiguration()
+	public void testBasicMqttConfiguration()
 	{
 		final MqSpyDaemon daemon = new MqSpyDaemon();
 		
-		assertTrue(daemon.start("src/test/resources/test_configurations/basic-configuration.xml"));
+		assertTrue(daemon.start("src/test/resources/test_configurations/basic-mqtt-configuration.xml"));
 		
 		while (!daemon.canPublish())
 		{
@@ -45,6 +45,42 @@ public class MqSpyDaemonTest
 		}
 		
 		ThreadingUtils.sleep(60000);
+		
+		daemon.stop();
+	}
+	
+	@Test
+	public void testBasicJmsConfiguration()
+	{
+		final MqSpyDaemon daemon = new MqSpyDaemon();
+		
+		assertTrue(daemon.start("src/test/resources/test_configurations/basic-jms-configuration.xml"));
+		
+//		while (!daemon.canPublish())
+//		{
+//			logger.debug("Client not connected yet - can't start test cases... [waiting another 1000ms]");
+//			ThreadingUtils.sleep(1000);
+//		}
+		
+		ThreadingUtils.sleep(15000);
+		
+		daemon.stop();
+	}
+	
+	@Test
+	public void testNrDataFeedsStompConfiguration()
+	{
+		final MqSpyDaemon daemon = new MqSpyDaemon();
+		
+		assertTrue(daemon.start("/home/kamil/Programming/nr-data-feeds-context.xml"));
+		
+		while (!daemon.canPublish())
+		{
+			logger.debug("Client not connected yet [waiting another 1000ms]");
+			ThreadingUtils.sleep(1000);
+		}
+		
+		ThreadingUtils.sleep(120000);
 		
 		daemon.stop();
 	}

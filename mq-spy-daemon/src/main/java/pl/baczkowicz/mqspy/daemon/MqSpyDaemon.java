@@ -25,14 +25,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import pl.baczkowicz.mqspy.daemon.configuration.ConfigurationLoader;
+import pl.baczkowicz.mqspy.daemon.generated.configuration.DaemonJmsConnectionDetails;
+import pl.baczkowicz.mqspy.daemon.generated.configuration.DaemonStompConnectionDetails;
 import pl.baczkowicz.mqspy.daemon.generated.configuration.MqSpyDaemonConfiguration;
+import pl.baczkowicz.mqspy.daemon.jms.JmsConnection;
 import pl.baczkowicz.mqspy.daemon.remote.HttpListener;
+import pl.baczkowicz.mqspy.daemon.stomp.StompConnection;
+import pl.baczkowicz.mqspy.daemon.stomp.StompScriptManager;
+import pl.baczkowicz.mqspy.scripts.JmsScriptManager;
 import pl.baczkowicz.mqttspy.daemon.MqttSpyDaemon;
 import pl.baczkowicz.mqttspy.daemon.configuration.generated.DaemonMqttConnectionDetails;
 import pl.baczkowicz.spy.common.generated.ProtocolEnum;
 import pl.baczkowicz.spy.configuration.PropertyFileLoader;
+import pl.baczkowicz.spy.eventbus.IKBus;
+import pl.baczkowicz.spy.eventbus.KBus;
 import pl.baczkowicz.spy.exceptions.SpyException;
 import pl.baczkowicz.spy.exceptions.XMLException;
+import pl.baczkowicz.spy.testcases.TestCaseManager;
 
 /**
  * The main class of the daemon.
@@ -46,6 +55,12 @@ public class MqSpyDaemon extends MqttSpyDaemon
 
 	private HttpListener httpListener;
 	// private MqttScriptIO scriptIO;
+	
+	private JmsConnection jmsConnection;
+
+	private StompConnection stompConnection;
+	
+	private IKBus eventBus = new KBus();
 	
 	/**
 	 * This is an internal method - initialises the daemon class.
@@ -99,19 +114,64 @@ public class MqSpyDaemon extends MqttSpyDaemon
 			configureMqtt(connectionSettings);
 			runScripts(connectionSettings.getBackgroundScript(), connectionSettings.getTestCases(), connectionSettings.getRunningMode());
 		}
-		
+		else if (ProtocolEnum.JMS.equals(loader.getProtocol()))
+		{
+			// Retrieve connection details
+			final DaemonJmsConnectionDetails connectionSettings = configuration.getConnectivity().getJmsConnection();	
+			
+			configureJms(connectionSettings);
+			runScripts(connectionSettings.getBackgroundScript(), connectionSettings.getTestCases(), connectionSettings.getRunningMode());
+		}
+		else if (ProtocolEnum.STOMP.equals(loader.getProtocol()))			
+		{
+			// Retrieve connection details
+			final DaemonStompConnectionDetails connectionSettings = configuration.getConnectivity().getStompConnection();	
+			
+			configureStomp(connectionSettings);
+			runScripts(connectionSettings.getBackgroundScript(), connectionSettings.getTestCases(), connectionSettings.getRunningMode());
+		}
+	
 		// Set up Remote Control
 		httpListener = new HttpListener();
 		httpListener.configureRemoteControl(configuration, this);
 	}
 	
+	private void configureJms(final DaemonJmsConnectionDetails connectionSettings)
+	{	
+		jmsConnection = new JmsConnection(); 
+		jmsConnection.configure(connectionSettings);
+		
+		// TODO: pass in a connection
+		scriptManager = new JmsScriptManager(eventBus, null, jmsConnection);
+		testCaseManager = new TestCaseManager(scriptManager);
+	}
 	
-	
-	protected boolean canPublish()
+	private void configureStomp(final DaemonStompConnectionDetails connectionSettings)
+	{	
+		stompConnection = new StompConnection(); 
+		stompConnection.configure(connectionSettings);
+		
+		scriptManager = new StompScriptManager(eventBus, null, stompConnection);
+		stompConnection.setScriptManager(scriptManager);
+		
+		testCaseManager = new TestCaseManager(scriptManager);
+		
+		stompConnection.connect();
+	}
+
+	public boolean canPublish()
 	{
 		if (ProtocolEnum.MQTT.equals(loader.getProtocol()))
 		{
 			return super.mqttConnection.canPublish();
+		}
+		else if (ProtocolEnum.JMS.equals(loader.getProtocol()))
+		{
+			// TODO
+		}
+		else if (ProtocolEnum.STOMP.equals(loader.getProtocol()))			
+		{
+			return stompConnection.canPublish();
 		}
 
 		return false;
@@ -127,6 +187,14 @@ public class MqSpyDaemon extends MqttSpyDaemon
 		if (ProtocolEnum.MQTT.equals(loader.getProtocol()))
 		{
 			super.stopMqtt();
+		}
+		else if (ProtocolEnum.JMS.equals(loader.getProtocol()))
+		{
+			jmsConnection.stopJms();
+		}
+		else if (ProtocolEnum.STOMP.equals(loader.getProtocol()))
+		{
+			stompConnection.stopStomp();
 		}
 		
 		httpListener.stop();		

@@ -25,11 +25,13 @@ import java.io.FileNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import pl.baczkowicz.mqspy.daemon.generated.configuration.DaemonJmsConnectionDetails;
+import pl.baczkowicz.mqspy.daemon.generated.configuration.DaemonStompConnectionDetails;
 import pl.baczkowicz.mqspy.daemon.generated.configuration.MqSpyDaemonConfiguration;
 import pl.baczkowicz.mqttspy.daemon.configuration.MqttSpyDaemonConfigLoader;
 import pl.baczkowicz.mqttspy.daemon.configuration.MqttSpyDaemonConstants;
 import pl.baczkowicz.mqttspy.daemon.configuration.generated.DaemonMqttConnectionDetails;
-import pl.baczkowicz.mqttspy.utils.ConfigurationUtils;
+import pl.baczkowicz.mqttspy.utils.MqttConfigurationUtils;
 import pl.baczkowicz.spy.common.generated.ProtocolEnum;
 import pl.baczkowicz.spy.configuration.PropertyFileLoader;
 import pl.baczkowicz.spy.exceptions.XMLException;
@@ -62,8 +64,8 @@ public class ConfigurationLoader extends PropertyFileLoader
 		readFromClassPath(MqSpyDaemonConstants.DEFAULT_PROPERTIES_FILE_NAME);
 		
 		this.parser = new XMLParser(MqSpyDaemonConstants.PACKAGE, 
-				new String[] {	ConfigurationUtils.SPY_COMMON_SCHEMA, 
-								ConfigurationUtils.MQTT_COMMON_SCHEMA,
+				new String[] {	MqttConfigurationUtils.SPY_COMMON_SCHEMA, 
+								MqttConfigurationUtils.MQTT_COMMON_SCHEMA,
 								MqttSpyDaemonConstants.SCHEMA,
 								MqSpyDaemonConstants.SCHEMA});					
 	}
@@ -103,13 +105,27 @@ public class ConfigurationLoader extends PropertyFileLoader
 		// Check if MQTT has been configured
 		final DaemonMqttConnectionDetails mqttConnection = configuration.getConnectivity().getMqttConnection();
 		
+		// Check if JMS has been configured
+		final DaemonJmsConnectionDetails jmsConnection = configuration.getConnectivity().getJmsConnection();
+		
+		// Check if STOMP has been configured
+		final DaemonStompConnectionDetails stompConnection = configuration.getConnectivity().getStompConnection();
+				
 		if (mqttConnection != null)		
 		{
 			protocol = ProtocolEnum.MQTT;
-			ConfigurationUtils.populateMessageLogDefaults(mqttConnection.getMessageLog());
+			MqttConfigurationUtils.populateMessageLogDefaults(mqttConnection.getMessageLog());
 			MqttSpyDaemonConfigLoader.populateDaemonDefaults(mqttConnection.getBackgroundScript());
 			MqttSpyDaemonConfigLoader.generateClientIdIfMissing(mqttConnection);
 		}				
+		else if (jmsConnection != null)
+		{
+			protocol = ProtocolEnum.JMS;
+		}
+		else if (stompConnection != null)
+		{
+			protocol = ProtocolEnum.STOMP;
+		}
 	}
 
 	/**

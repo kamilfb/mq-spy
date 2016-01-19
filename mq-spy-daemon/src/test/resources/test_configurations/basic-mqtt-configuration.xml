@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mqspydc:MqSpyDaemonConfiguration xmlns:mqspydc="http://baczkowicz.pl/spy/daemon/configuration" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<mqspydc:MqSpyDaemonConfiguration xmlns:mqspydc="http://baczkowicz.pl/mq-spy/daemon/configuration" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
 	<Connectivity>
 	  <MqttConnection>

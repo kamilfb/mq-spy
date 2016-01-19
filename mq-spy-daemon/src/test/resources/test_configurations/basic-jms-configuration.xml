@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mqspydc:MqSpyDaemonConfiguration xmlns:mqspydc="http://baczkowicz.pl/mq-spy/daemon/configuration" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<Connectivity>
+	  <JmsConnection>
+	  
+	  	<ConnectionFactory>	
+	  			<!--
+	  		<ClassBased>
+	  			<ClassName>org.apache.activemq.ActiveMQConnectionFactory</ClassName>
+	  		 
+	  			<Property>
+	  				<Name>brokerURL</Name>
+	  				<Value>tcp://localhost:61616</Value>
+	  			</Property>
+	  			 
+	  		</ClassBased>
+	  		-->
+	  		<ContextFile>
+	  			<ContextFileLocation>/jms-context.xml</ContextFileLocation>
+	  			<ConnectionFactoryBean>localActiveMQConnectionFactory</ConnectionFactoryBean>
+	  			<JmsTemplateBean>localJmsTemplate</JmsTemplateBean>
+	  		</ContextFile>
+	  	</ConnectionFactory>
+	  	
+	  	<Subscription>jmstest</Subscription>
+	
+		<!-- Use CONTINUOUS or SCRIPTS_ONLY -->
+		<RunningMode>CONTINUOUS</RunningMode>
+		
+	  </JmsConnection>
+	</Connectivity>
+
+  
+</mqspydc:MqSpyDaemonConfiguration>

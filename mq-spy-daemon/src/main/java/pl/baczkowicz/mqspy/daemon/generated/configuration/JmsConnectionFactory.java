@@ -26,17 +26,17 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
 
 
 /**
- * <p>Java class for RemoteControl complex type.
+ * <p>Java class for JmsConnectionFactory complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="RemoteControl"&gt;
+ * &lt;complexType name="JmsConnectionFactory"&gt;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
- *       &lt;sequence&gt;
- *         &lt;element name="HttpListener" type="{http://baczkowicz.pl/mq-spy/daemon/configuration}HttpListener" minOccurs="0"/&gt;
- *       &lt;/sequence&gt;
+ *       &lt;choice&gt;
+ *         &lt;element name="ContextFile" type="{http://baczkowicz.pl/mq-spy/daemon/configuration}JmsContextFile"/&gt;
+ *       &lt;/choice&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
@@ -45,38 +45,38 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RemoteControl", propOrder = {
-    "httpListener"
+@XmlType(name = "JmsConnectionFactory", propOrder = {
+    "contextFile"
 })
-public class RemoteControl
+public class JmsConnectionFactory
     implements Equals, HashCode, ToString
 {
 
-    @XmlElement(name = "HttpListener")
-    protected HttpListener httpListener;
+    @XmlElement(name = "ContextFile")
+    protected JmsContextFile contextFile;
 
     /**
-     * Gets the value of the httpListener property.
+     * Gets the value of the contextFile property.
      * 
      * @return
      *     possible object is
-     *     {@link HttpListener }
+     *     {@link JmsContextFile }
      *     
      */
-    public HttpListener getHttpListener() {
-        return httpListener;
+    public JmsContextFile getContextFile() {
+        return contextFile;
     }
 
     /**
-     * Sets the value of the httpListener property.
+     * Sets the value of the contextFile property.
      * 
      * @param value
      *     allowed object is
-     *     {@link HttpListener }
+     *     {@link JmsContextFile }
      *     
      */
-    public void setHttpListener(HttpListener value) {
-        this.httpListener = value;
+    public void setContextFile(JmsContextFile value) {
+        this.contextFile = value;
     }
 
     public String toString() {
@@ -95,27 +95,27 @@ public class RemoteControl
 
     public StringBuilder appendFields(ObjectLocator locator, StringBuilder buffer, ToStringStrategy strategy) {
         {
-            HttpListener theHttpListener;
-            theHttpListener = this.getHttpListener();
-            strategy.appendField(locator, this, "httpListener", buffer, theHttpListener);
+            JmsContextFile theContextFile;
+            theContextFile = this.getContextFile();
+            strategy.appendField(locator, this, "contextFile", buffer, theContextFile);
         }
         return buffer;
     }
 
     public boolean equals(ObjectLocator thisLocator, ObjectLocator thatLocator, Object object, EqualsStrategy strategy) {
-        if (!(object instanceof RemoteControl)) {
+        if (!(object instanceof JmsConnectionFactory)) {
             return false;
         }
         if (this == object) {
             return true;
         }
-        final RemoteControl that = ((RemoteControl) object);
+        final JmsConnectionFactory that = ((JmsConnectionFactory) object);
         {
-            HttpListener lhsHttpListener;
-            lhsHttpListener = this.getHttpListener();
-            HttpListener rhsHttpListener;
-            rhsHttpListener = that.getHttpListener();
-            if (!strategy.equals(LocatorUtils.property(thisLocator, "httpListener", lhsHttpListener), LocatorUtils.property(thatLocator, "httpListener", rhsHttpListener), lhsHttpListener, rhsHttpListener)) {
+            JmsContextFile lhsContextFile;
+            lhsContextFile = this.getContextFile();
+            JmsContextFile rhsContextFile;
+            rhsContextFile = that.getContextFile();
+            if (!strategy.equals(LocatorUtils.property(thisLocator, "contextFile", lhsContextFile), LocatorUtils.property(thatLocator, "contextFile", rhsContextFile), lhsContextFile, rhsContextFile)) {
                 return false;
             }
         }
@@ -130,9 +130,9 @@ public class RemoteControl
     public int hashCode(ObjectLocator locator, HashCodeStrategy strategy) {
         int currentHashCode = 1;
         {
-            HttpListener theHttpListener;
-            theHttpListener = this.getHttpListener();
-            currentHashCode = strategy.hashCode(LocatorUtils.property(locator, "httpListener", theHttpListener), currentHashCode, theHttpListener);
+            JmsContextFile theContextFile;
+            theContextFile = this.getContextFile();
+            currentHashCode = strategy.hashCode(LocatorUtils.property(locator, "contextFile", theContextFile), currentHashCode, theContextFile);
         }
         return currentHashCode;
     }

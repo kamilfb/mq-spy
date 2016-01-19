@@ -26,9 +26,21 @@
   <dependencies>
   		
   		<dependency>
+			<groupId>pl.baczkowicz.spy</groupId>
+			<artifactId>spy-common</artifactId>
+			<version>0.0.4</version>			 
+			<exclusions>
+				<exclusion>
+					<artifactId>maven-jaxb2-plugin</artifactId>
+					<groupId>org.jvnet.jaxb2.maven2</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		
+  		<dependency>
 			<groupId>pl.baczkowicz.mqttspy</groupId>
 			<artifactId>mqtt-spy-common</artifactId>
-			<version>0.0.13</version>			 
+			<version>0.0.17</version>			 
 			<exclusions>
 				<exclusion>
 					<artifactId>maven-jaxb2-plugin</artifactId>
@@ -40,7 +52,7 @@
 		<dependency>
 			<groupId>pl.baczkowicz.mqttspy</groupId>
 			<artifactId>mqtt-spy-daemon</artifactId>
-			<version>0.1.0-beta</version>			 
+			<version>0.2.0-beta</version>			 
 		</dependency>
 
 		<!--=== SPRING === -->
@@ -55,9 +67,29 @@
         		
         <dependency>
             <groupId>org.apache.activemq</groupId>
-            <artifactId>activemq-all</artifactId>
+            <artifactId>activemq-client</artifactId>
             <version>5.12.0</version>
+            <exclusions>
+            	<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-log4j12</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+				<exclusion>
+				    <groupId>org.apache.activemq</groupId>
+        			<artifactId>activemq-stomp</artifactId>
+				</exclusion>
+            </exclusions>
         </dependency>
+
+	<dependency>
+		<groupId>com.eclipsesource.minimal-json</groupId>
+		<artifactId>minimal-json</artifactId>
+		<version>0.9.4</version>
+	</dependency>
         
         <!--=== JETTY === -->
         
@@ -227,6 +259,13 @@
 			                <catalogs>
 			                	<catalog>
 			                		<dependencyResource>
+			                			<groupId>pl.baczkowicz.spy</groupId>
+			                			<artifactId>spy-common</artifactId>
+			                			<resource>spy-common.catalog</resource>
+			                		</dependencyResource>
+			                	</catalog>
+			                	<catalog>
+			                		<dependencyResource>
 			                			<groupId>pl.baczkowicz.mqttspy</groupId>
 			                			<artifactId>mqtt-spy-common</artifactId>
 			                			<resource>mqtt-spy-common.catalog</resource>
@@ -251,6 +290,10 @@
 			                	<episode>
 			                		<groupId>pl.baczkowicz.mqttspy</groupId>
 			                		<artifactId>mqtt-spy-daemon</artifactId>
+			                	</episode>
+			                	<episode>
+			                		<groupId>pl.baczkowicz.spy</groupId>
+			                		<artifactId>spy-common</artifactId>
 			                	</episode>
 			                </episodes>
 			                
