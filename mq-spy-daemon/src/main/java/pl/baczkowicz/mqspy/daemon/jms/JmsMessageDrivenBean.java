@@ -28,10 +28,23 @@ import javax.jms.TextMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class MessageDrivenBean implements MessageListener
-{
+import pl.baczkowicz.spy.connectivity.BaseSubscription;
+import pl.baczkowicz.spy.messages.BaseMessage;
+import pl.baczkowicz.spy.scripts.BaseScriptManager;
 
-	private final static Logger logger = LoggerFactory.getLogger(MessageDrivenBean.class);
+public class JmsMessageDrivenBean implements MessageListener
+{
+	private final static Logger logger = LoggerFactory.getLogger(JmsMessageDrivenBean.class);
+	
+	private BaseSubscription subscription;
+	
+	private BaseScriptManager scriptManager;
+
+	public JmsMessageDrivenBean(final BaseScriptManager scriptManager, final BaseSubscription subscription)
+	{
+		this.subscription = subscription;
+		this.scriptManager = scriptManager;
+	}
 
 	public void onMessage(final Message message)
 	{
@@ -45,12 +58,28 @@ public class MessageDrivenBean implements MessageListener
 				byte data[] = new byte[(int) msg.getBodyLength()];
 				msg.readBytes(data);
 				
-				logger.info("Payload: " + new String(data));
+				final String payload = new String(data);
+				logger.info("Payload: " + payload);
+				
+				final BaseMessage baseMessage = new BaseMessage(subscription.getTopic(), payload);
+				
+				if (subscription.isScriptActive())
+				{
+					scriptManager.runScriptWithReceivedMessage(subscription.getScript(), baseMessage);
+				}
 			}
 			else if (message instanceof TextMessage)
 			{
 				TextMessage msg = (TextMessage) message;
 				logger.info("Consumed text message: " + msg.getText());
+				
+				final String payload = msg.getText();
+				final BaseMessage baseMessage = new BaseMessage(subscription.getTopic(), payload);
+				
+				if (subscription.isScriptActive())
+				{
+					scriptManager.runScriptWithReceivedMessage(subscription.getScript(), baseMessage);
+				}
 			}
 			else				
 			{

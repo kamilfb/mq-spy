@@ -34,6 +34,7 @@
 	<xs:complexType name="DaemonJmsConnectionDetails">
 		<xs:sequence>
 			<xs:element name="ConnectionFactory" 	type="mqspydc:JmsConnectionFactory" 	minOccurs="1" maxOccurs="1"/>
+
 			<xs:element name="Subscription"			type="spycommon:ScriptedSubscriptionDetails" minOccurs="0" maxOccurs="unbounded" />
 			<xs:element name="Formatter" 			type="xs:IDREF" 						minOccurs="0" maxOccurs="1" />
 			<xs:element name="BackgroundScript"		type="spycommon:ScriptDetails"			minOccurs="0" maxOccurs="unbounded" />			
@@ -68,7 +69,7 @@
 		<xs:sequence>
 			<xs:element name="ContextFileLocation" 		type="xs:string" minOccurs="1" maxOccurs="1"/>
 			<xs:element name="ConnectionFactoryBean" 	type="xs:string" minOccurs="1" maxOccurs="1"/>
-			<xs:element name="JmsTemplateBean" 			type="xs:string" minOccurs="1" maxOccurs="1"/>			
+			<xs:element name="JmsTemplateBean" 			type="xs:string" minOccurs="0" maxOccurs="1"/>			
 		</xs:sequence>	
 	</xs:complexType>
 	<!-- 
@@ -82,6 +83,7 @@
 	<xs:complexType name="JmsConnectionFactory">
 		<xs:choice minOccurs="1" maxOccurs="1">			
 			<xs:element name="ContextFile" 		type="mqspydc:JmsContextFile" />
+			<xs:element name="ScriptFile" 		type="xs:string" />
 			<!-- <xs:element name="ClassBased" 		type="mqspydc:JmsClassBased" /> -->
 		</xs:choice>
 	</xs:complexType>

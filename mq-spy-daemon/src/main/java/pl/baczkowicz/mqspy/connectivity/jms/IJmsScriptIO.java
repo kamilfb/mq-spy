@@ -17,11 +17,8 @@
  *    Kamil Baczkowicz - initial API and implementation and/or initial documentation
  *    
  */
-package pl.baczkowicz.mqspy.scripts;
+package pl.baczkowicz.mqspy.connectivity.jms;
 
-import java.util.List;
-
-import pl.baczkowicz.mqttspy.messages.FormattedMqttMessage;
 import pl.baczkowicz.spy.scripts.IScriptIO;
 
 /**

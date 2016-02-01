@@ -17,14 +17,10 @@
  *    Kamil Baczkowicz - initial API and implementation and/or initial documentation
  *    
  */
-package pl.baczkowicz.mqspy.daemon.stomp;
+package pl.baczkowicz.mqspy.connectivity.jms;
 
 import java.util.concurrent.Executor;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import pl.baczkowicz.mqspy.connectivity.IJmsConnection;
 import pl.baczkowicz.spy.eventbus.IKBus;
 import pl.baczkowicz.spy.scripts.Script;
 import pl.baczkowicz.spy.scripts.ScriptIO;
@@ -32,13 +28,13 @@ import pl.baczkowicz.spy.scripts.ScriptIO;
 /**
  * Implementation of the interface between a script and the rest of the application.
  */
-public class StompScriptIO extends ScriptIO
+public class JmsScriptIO extends ScriptIO implements IJmsScriptIO
 {
 	/** Diagnostic logger. */
-	private final static Logger logger = LoggerFactory.getLogger(StompScriptIO.class);
+	// private final static Logger logger = LoggerFactory.getLogger(JmsScriptIO.class);
 	
-	/** Reference to the connection. */
-	private final StompConnection connection;
+	/** Reference to the JMS connection. */
+	private final IJmsConnection connection;
 	
 	/**
 	 * Creates the PublicationScriptIO.
@@ -48,45 +44,29 @@ public class StompScriptIO extends ScriptIO
 	 * @param script The script itself
 	 * @param executor Task executor
 	 */
-	public StompScriptIO(
-			final StompConnection connection, final IKBus eventBus, 
+	public JmsScriptIO(
+			final IJmsConnection connection, final IKBus eventBus, 
 			final Script script, final Executor executor)
 	{
 		super(script, executor);	
 		this.connection = connection;
 	}	
 	
+	@Override
 	public void publish(final String publicationTopic, final String data)
 	{
-		//publish(publicationTopic, data, 0, false);
+		connection.publish(publicationTopic, data);
 	}
 
-
+	@Override
 	public boolean subscribe(final String topic)
 	{
-		return false;
-//		BaseMqttSubscription subscription = connection.getMqttSubscriptionForTopic(topic);
-//		
-//		if (subscription == null)
-//		{
-//			subscription = new BaseMqttSubscription(topic, qos, 1, 1000);
-//		}
-//		
-//		return connection.subscribe(subscription);
+		return connection.subscribe(topic);
 	}
 
+	@Override
 	public boolean unsubscribe(final String topic)
-	{
-//		BaseMqttSubscription subscription = connection.getMqttSubscriptionForTopic(topic);
-//		
-//		if (subscription != null)
-//		{
-//			connection.removeSubscription(subscription);
-//			return connection.unsubscribe(topic);
-//		}
-		
-		return false;		
+	{	
+		return connection.unsubscribe(topic);		
 	}
-	
-	// TODO: getAllMessages
 }

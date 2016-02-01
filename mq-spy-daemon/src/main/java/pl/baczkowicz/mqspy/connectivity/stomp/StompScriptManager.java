@@ -17,7 +17,7 @@
  *    Kamil Baczkowicz - initial API and implementation and/or initial documentation
  *    
  */
-package pl.baczkowicz.mqspy.daemon.stomp;
+package pl.baczkowicz.mqspy.connectivity.stomp;
 
 import java.util.HashMap;
 import java.util.Map;

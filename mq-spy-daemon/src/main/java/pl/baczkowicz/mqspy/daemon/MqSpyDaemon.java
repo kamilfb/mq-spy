@@ -24,14 +24,14 @@ import java.io.File;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import pl.baczkowicz.mqspy.connectivity.jms.JmsConnection;
+import pl.baczkowicz.mqspy.connectivity.stomp.StompConnection;
+import pl.baczkowicz.mqspy.connectivity.stomp.StompScriptManager;
 import pl.baczkowicz.mqspy.daemon.configuration.ConfigurationLoader;
 import pl.baczkowicz.mqspy.daemon.generated.configuration.DaemonJmsConnectionDetails;
 import pl.baczkowicz.mqspy.daemon.generated.configuration.DaemonStompConnectionDetails;
 import pl.baczkowicz.mqspy.daemon.generated.configuration.MqSpyDaemonConfiguration;
-import pl.baczkowicz.mqspy.daemon.jms.JmsConnection;
 import pl.baczkowicz.mqspy.daemon.remote.HttpListener;
-import pl.baczkowicz.mqspy.daemon.stomp.StompConnection;
-import pl.baczkowicz.mqspy.daemon.stomp.StompScriptManager;
 import pl.baczkowicz.mqspy.scripts.JmsScriptManager;
 import pl.baczkowicz.mqttspy.daemon.MqttSpyDaemon;
 import pl.baczkowicz.mqttspy.daemon.configuration.generated.DaemonMqttConnectionDetails;
@@ -143,6 +143,8 @@ public class MqSpyDaemon extends MqttSpyDaemon
 		
 		// TODO: pass in a connection
 		scriptManager = new JmsScriptManager(eventBus, null, jmsConnection);
+		jmsConnection.setScriptManager(scriptManager);
+		
 		testCaseManager = new TestCaseManager(scriptManager);
 	}
 	

@@ -1,4 +1,4 @@
-package pl.baczkowicz.mqspy.daemon.stomp;
+package pl.baczkowicz.mqspy.connectivity.stomp;
 
 import java.util.Map;
 
@@ -9,15 +9,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import pl.baczkowicz.mqspy.daemon.generated.configuration.DaemonStompConnectionDetails;
+import pl.baczkowicz.mqspy.daemon.stomp.StompCallback;
 import pl.baczkowicz.spy.common.generated.ProtocolEnum;
 import pl.baczkowicz.spy.common.generated.ScriptDetails;
 import pl.baczkowicz.spy.common.generated.ScriptedSubscriptionDetails;
 import pl.baczkowicz.spy.connectivity.BaseSubscription;
-import pl.baczkowicz.spy.connectivity.IConnection;
 import pl.baczkowicz.spy.scripts.BaseScriptManager;
 import pl.baczkowicz.spy.scripts.Script;
 
-public class StompConnection implements IConnection, Listener
+public class StompConnection implements IStompConnection, Listener
 {
 	/** Diagnostic logger. */
 	private final static Logger logger = LoggerFactory.getLogger(StompConnection.class);
@@ -33,7 +33,6 @@ public class StompConnection implements IConnection, Listener
 		this.connectionSettings = connectionSettings;
 	}
 	
-
 	public void connect()
 	{
 		try
@@ -92,6 +91,12 @@ public class StompConnection implements IConnection, Listener
 		return connection.isConnected();
 	}
 
+	@Override
+	public boolean subscribe(String topic)
+	{
+		return subscribe(new BaseSubscription(topic));
+	}
+	
 	public boolean subscribe(final BaseSubscription subscription)
 	{
 		logger.info("Subscribing...");
@@ -115,10 +120,13 @@ public class StompConnection implements IConnection, Listener
 		return true;
 	}
 
-	public boolean unsubscribe(String topic)
+	public boolean unsubscribe(final String topic)
 	{
-		// TODO Auto-generated method stub
-		return false;
+		logger.info("Unsubscribing...");
+		connection.unsubscribe(topic);
+		logger.info("Unsubscribed from " + topic);
+		
+		return true;
 	}
 
 	public void setScriptManager(final BaseScriptManager scriptManager)
@@ -126,11 +134,19 @@ public class StompConnection implements IConnection, Listener
 		this.scriptManager = scriptManager;		
 	}
 
-
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void message(final Map header, final String body)
 	{
+		// This method is for error handling only - see addErrorListener
 		logger.error("Got header: " + header);
 		logger.error("Got body: " + body);		
+	}
+
+	@Override
+	public void publish(final String publicationTopic, final String data)
+	{
+		logger.info("Publishing to {}: {}", publicationTopic, data);
+		connection.send(publicationTopic, data);		
 	}
 }

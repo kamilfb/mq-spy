@@ -25,8 +25,9 @@ import java.util.concurrent.Executor;
 
 import org.slf4j.LoggerFactory;
 
-import pl.baczkowicz.mqspy.connectivity.IJmsConnection;
-import pl.baczkowicz.mqspy.daemon.jms.JmsConnection;
+import pl.baczkowicz.mqspy.connectivity.jms.IJmsConnection;
+import pl.baczkowicz.mqspy.connectivity.jms.JmsConnection;
+import pl.baczkowicz.mqspy.connectivity.jms.JmsScriptIO;
 import pl.baczkowicz.mqttspy.logger.IMqttMessageLogIO;
 import pl.baczkowicz.mqttspy.logger.MqttMessageLogIO;
 import pl.baczkowicz.spy.eventbus.IKBus;

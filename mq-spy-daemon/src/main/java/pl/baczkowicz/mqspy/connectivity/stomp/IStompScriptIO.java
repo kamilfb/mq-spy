@@ -1,6 +1,6 @@
 /***********************************************************************************
  * 
- * Copyright (c) 2015 Kamil Baczkowicz
+ * Copyright (c) 2014 Kamil Baczkowicz
  * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -17,37 +17,24 @@
  *    Kamil Baczkowicz - initial API and implementation and/or initial documentation
  *    
  */
-package pl.baczkowicz.mqspy.connectivity;
+package pl.baczkowicz.mqspy.connectivity.stomp;
 
-import pl.baczkowicz.spy.connectivity.IConnection;
+import pl.baczkowicz.spy.scripts.IScriptIO;
 
-/** 
- * Basic interface for interacting with an MQTT connection.
- * 
- * TODO: might need adding more methods from BaseMqttConnection
+/**
+ * Interface between a script and the mqttspy object, primarily used for publishing messages.
  */
-public interface IJmsConnection extends IConnection
+public interface IStompScriptIO extends IScriptIO
 {
-	/**
-	 * Attempts a subscription to the given topic and quality of service.
-	 * 
-	 * @param topic Subscription topic
-	 * @param qos Subscription QoS
-	 */
 	boolean subscribe(final String topic);
 	
-	/**
-	 * Attempts to unsubscribe from the given topic.
-	 * 
-	 * @param topic Subscription topic
-	 */
 	boolean unsubscribe(final String topic);
 	
-	/** 
-	 * Checks if a message can be published (e.g. client is connected).
+	/**
+	 * Publishes a message with the given payload to the given topic (qos = 0; retained = false).
 	 * 
-	 * @return True if publication is possible
+	 * @param publicationTopic The publication topic
+	 * @param payload The payload of the message
 	 */
-	boolean canPublish();
-	
+	void publish(final String publicationTopic, final String payload);
 }
