@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mqspys:MqSpySwarmConfiguration xmlns:mqspys="http://baczkowicz.pl/spy/mq-spy-swarm/configuration" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<SwarmGroup>
+	
+		<GroupId>superSwarm</GroupId>
+		<DaemonInstances>5</DaemonInstances>
+		
+		<TemplateConfiguration>
+			<Connectivity>
+			  <MqttConnection>				  
+		  		<Protocol>MQTT 3.1.1</Protocol>
+				<ServerURI>localhost</ServerURI>					  	  		
+			  	<!-- Leave empty to auto-generate -->
+				<ClientID></ClientID>								
+				<MessageLog>DISABLED</MessageLog>
+				
+				<Subscription topic="mq-spy-swarm/#" />
+						
+				<!-- Publishing sample messages; use the built-in sample -->
+				<BackgroundScript>
+					<File>/sample-swarm-publish.js</File>
+				</BackgroundScript>
+			
+				<!-- Exit the daemon when the script has finished -->
+				<RunningMode>SCRIPTS_ONLY</RunningMode>					
+			  </MqttConnection>
+			</Connectivity>
+		</TemplateConfiguration>
+		
+	</SwarmGroup>
+  
+</mqspys:MqSpySwarmConfiguration>

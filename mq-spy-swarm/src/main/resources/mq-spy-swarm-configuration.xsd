@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/***********************************************************************************
+ * 
+ * Copyright (c) 2015 Kamil Baczkowicz
+ * 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * and Eclipse Distribution License v1.0 which accompany this distribution.
+ *
+ * The Eclipse Public License is available at
+ *    http://www.eclipse.org/legal/epl-v10.html
+ *    
+ * The Eclipse Distribution License is available at
+ *   http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * Contributors:
+ * 
+ *    Kamil Baczkowicz - initial API and implementation and/or initial documentation
+ *    
+ */
+-->
+<xs:schema 	xmlns:xs=			"http://www.w3.org/2001/XMLSchema" 
+			xmlns:mqspys=		"http://baczkowicz.pl/spy/mq-spy-swarm/configuration"
+			xmlns:mqspydc=		"http://baczkowicz.pl/spy/mq-spy-daemon/configuration"
+			xmlns:spycommon=	"http://baczkowicz.pl/spy/common"
+			xmlns:mqttspycommon="http://baczkowicz.pl/mqtt-spy/common"
+			xmlns:mqttspydc=	"http://baczkowicz.pl/mqtt-spy/daemon/configuration"
+			targetNamespace=	"http://baczkowicz.pl/spy/mq-spy-swarm/configuration">
+
+	<xs:import namespace="http://baczkowicz.pl/spy/common" />
+	<xs:import namespace="http://baczkowicz.pl/mqtt-spy/common" />
+	<xs:import namespace="http://baczkowicz.pl/mqtt-spy/daemon/configuration" />
+	<xs:import namespace="http://baczkowicz.pl/spy/mq-spy-daemon/configuration" />
+
+	<xs:complexType name="SwarmGroup">
+		<xs:sequence>
+			<xs:element name="GroupId" 					type="xs:string" minOccurs="1" maxOccurs="1" />
+			<xs:element name="DaemonInstances" 			type="xs:int" minOccurs="1" maxOccurs="1" />
+			<xs:element name="TemplateConfiguration" 	type="mqspydc:MqSpyDaemonConfiguration" minOccurs="1" maxOccurs="1" />	
+		</xs:sequence>	
+	</xs:complexType>
+	
+	<xs:complexType name="MqSpySwarmConfiguration">
+		<xs:sequence>
+			<xs:element name="SwarmGroup" 				type="mqspys:SwarmGroup" minOccurs="1" maxOccurs="unbounded"/>			
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!-- ================ -->
+	<!-- === ELEMENTS === -->
+	<!-- ================ -->
+
+	<xs:element name="MqSpySwarmConfiguration" type="mqspys:MqSpySwarmConfiguration" />
+
+</xs:schema>

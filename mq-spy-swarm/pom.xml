@@ -2,10 +2,10 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>pl.baczkowicz.spy</groupId>
-	<artifactId>mq-spy-daemon</artifactId>
+	<artifactId>mq-spy-swarm</artifactId>
 	<version>0.0.1-beta</version>
 
-  	<name>mq-spy-daemon</name>
+  	<name>mq-spy-swarm</name>
   	<url>http://kamilfb.github.io/mq-spy/</url>
 
 	<scm>
@@ -25,6 +25,12 @@
 	
   <dependencies>
   		
+  		<dependency>
+			<groupId>pl.baczkowicz.spy</groupId>
+			<artifactId>mq-spy-daemon</artifactId>
+			<version>0.0.1-beta</version>			 
+		</dependency>
+
   		<dependency>
 			<groupId>pl.baczkowicz.spy</groupId>
 			<artifactId>spy-common</artifactId>
@@ -53,56 +59,6 @@
 			<groupId>pl.baczkowicz.mqttspy</groupId>
 			<artifactId>mqtt-spy-daemon</artifactId>
 			<version>0.2.0-beta</version>			 
-		</dependency>
-
-		<!--=== SPRING === -->
-		
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-jms</artifactId>
-            <version>4.2.1.RELEASE</version>
-        </dependency>
-        
-        <!--=== JMS providers === -->
-        		
-        <dependency>
-            <groupId>org.apache.activemq</groupId>
-            <artifactId>activemq-client</artifactId>
-            <version>5.12.0</version>
-            <exclusions>
-            	<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-log4j12</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-api</artifactId>
-				</exclusion>
-				<exclusion>
-				    <groupId>org.apache.activemq</groupId>
-        			<artifactId>activemq-stomp</artifactId>
-				</exclusion>
-            </exclusions>
-        </dependency>
-
-	<dependency>
-		<groupId>com.eclipsesource.minimal-json</groupId>
-		<artifactId>minimal-json</artifactId>
-		<version>0.9.4</version>
-	</dependency>
-        
-        <!--=== JETTY === -->
-        
-        <dependency>
-			<groupId>org.eclipse.jetty</groupId>
-			<artifactId>jetty-server</artifactId>
-			<version>9.3.3.v20150827</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.eclipse.jetty</groupId>
-			<artifactId>jetty-servlet</artifactId>
-			<version>9.3.3.v20150827</version>
 		</dependency>
 		
 		<!--=== TEST === -->
@@ -191,7 +147,7 @@
 					</descriptorRefs>
 					<archive>
 						<manifest>
-							<mainClass>pl.baczkowicz.mqspy.daemon.Main</mainClass>
+							<mainClass>pl.baczkowicz.mqspy.swarm.Main</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
@@ -250,10 +206,10 @@
 			            <configuration>
 			                <schemaDirectory>src/main/resources/</schemaDirectory>
 			                <schemaIncludes>
-			                    <include>mq-spy-daemon-configuration.xsd</include>
+			                    <include>mq-spy-swarm-configuration.xsd</include>
 			                </schemaIncludes>			                 
 			                <generateDirectory>src/main/java/</generateDirectory>			                
-			                <generatePackage>pl.baczkowicz.mqspy.daemon.generated.configuration</generatePackage>
+			                <generatePackage>pl.baczkowicz.mqspy.swarm.generated.configuration</generatePackage>
 			                <removeOldOutput>false</removeOldOutput>
 			                
 			                <catalogs>
@@ -278,9 +234,16 @@
 			                			<resource>mqtt-spy-daemon.catalog</resource>
 			                		</dependencyResource>
 			                	</catalog>
+			                	<catalog>
+			                		<dependencyResource>
+			                			<groupId>pl.baczkowicz.spy</groupId>
+			                			<artifactId>mq-spy-daemon</artifactId>
+			                			<resource>mq-spy-daemon.catalog</resource>
+			                		</dependencyResource>
+			                	</catalog>
 			                </catalogs>
 			                
-			                <episode>true</episode>
+			                <episode>false</episode>
 			                
 			                <episodes>
 			                	<episode>
@@ -290,6 +253,10 @@
 			                	<episode>
 			                		<groupId>pl.baczkowicz.mqttspy</groupId>
 			                		<artifactId>mqtt-spy-daemon</artifactId>
+			                	</episode>
+			                	<episode>
+			                		<groupId>pl.baczkowicz.spy</groupId>
+			                		<artifactId>mq-spy-daemon</artifactId>
 			                	</episode>
 			                	<episode>
 			                		<groupId>pl.baczkowicz.spy</groupId>
@@ -331,7 +298,7 @@
 	           <configuration>
 	           		<basedir>src/main/java</basedir>
                     <includes>
-						<include>pl/baczkowicz/mqspy/daemon/generated/configuration/**/*.java</include>
+						<include>pl/baczkowicz/mqspy/swarm/generated/configuration/**/*.java</include>
                     </includes>
                     <replacements>   
                         <replacement>
