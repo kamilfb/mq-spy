@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>pl.baczkowicz.spy</groupId>
 	<artifactId>mq-spy-daemon</artifactId>
-	<version>0.0.1-beta</version>
+	<version>0.0.3-beta</version>
 
   	<name>mq-spy-daemon</name>
   	<url>http://kamilfb.github.io/mq-spy/</url>
@@ -63,8 +63,13 @@
             <version>4.2.1.RELEASE</version>
         </dependency>
         
-        <!--=== JMS providers === -->
-        		
+        <!--=== JMS/messaging providers === -->
+        <dependency>
+        	<groupId>net.ser1.stomp</groupId>
+			<artifactId>gozirra-client</artifactId>
+			<version>0.4.1</version>
+		</dependency>
+	
         <dependency>
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-client</artifactId>
@@ -84,6 +89,12 @@
 				</exclusion>
             </exclusions>
         </dependency>
+
+	<dependency>
+		<groupId>com.amazonaws</groupId>
+		<artifactId>amazon-kinesis-client</artifactId>
+		<version>1.6.1</version>
+	</dependency>
 
 	<dependency>
 		<groupId>com.eclipsesource.minimal-json</groupId>
@@ -250,10 +261,10 @@
 			            <configuration>
 			                <schemaDirectory>src/main/resources/</schemaDirectory>
 			                <schemaIncludes>
-			                    <include>mq-spy-daemon-configuration.xsd</include>
+			                    <include>msg-spy-daemon-configuration.xsd</include>
 			                </schemaIncludes>			                 
 			                <generateDirectory>src/main/java/</generateDirectory>			                
-			                <generatePackage>pl.baczkowicz.mqspy.daemon.generated.configuration</generatePackage>
+			                <generatePackage>pl.baczkowicz.msgspy.daemon.generated.configuration</generatePackage>
 			                <removeOldOutput>false</removeOldOutput>
 			                
 			                <catalogs>
@@ -280,7 +291,7 @@
 			                	</catalog>
 			                </catalogs>
 			                
-			                <episode>true</episode>
+			                <episode>false</episode>
 			                
 			                <episodes>
 			                	<episode>
@@ -331,7 +342,7 @@
 	           <configuration>
 	           		<basedir>src/main/java</basedir>
                     <includes>
-						<include>pl/baczkowicz/mqspy/daemon/generated/configuration/**/*.java</include>
+						<include>pl/baczkowicz/msgspy/daemon/generated/configuration/**/*.java</include>
                     </includes>
                     <replacements>   
                         <replacement>

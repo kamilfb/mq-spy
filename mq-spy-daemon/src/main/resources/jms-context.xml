@@ -14,7 +14,7 @@ xmlns="http://www.springframework.org/schema/beans"
 		</property>
 	</bean>
 
-	<!-- Spring JMS Template, optional -->
+	<!-- Spring JMS Template -->
 	<bean id="localJmsTemplate" class="org.springframework.jms.core.JmsTemplate">
 		<property name="connectionFactory">
 			<ref local="localActiveMQConnectionFactory" />
