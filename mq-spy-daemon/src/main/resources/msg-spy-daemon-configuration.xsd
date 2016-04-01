@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/***********************************************************************************
+ * 
+ * Copyright (c) 2015 Kamil Baczkowicz
+ * 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * and Eclipse Distribution License v1.0 which accompany this distribution.
+ *
+ * The Eclipse Public License is available at
+ *    http://www.eclipse.org/legal/epl-v10.html
+ *    
+ * The Eclipse Distribution License is available at
+ *   http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * Contributors:
+ * 
+ *    Kamil Baczkowicz - initial API and implementation and/or initial documentation
+ *    
+ */
+-->
+<xs:schema 	xmlns:xs=			"http://www.w3.org/2001/XMLSchema" 
+			xmlns:msgspydc=		"http://baczkowicz.pl/msg-spy/daemon/configuration"
+			xmlns:spycommon=	"http://baczkowicz.pl/spy/common"
+			xmlns:mqttspycommon="http://baczkowicz.pl/mqtt-spy/common"
+			xmlns:mqttspydc=	"http://baczkowicz.pl/mqtt-spy/daemon/configuration"
+			targetNamespace=	"http://baczkowicz.pl/msg-spy/daemon/configuration">
+
+	<xs:import namespace="http://baczkowicz.pl/spy/common" />
+	<xs:import namespace="http://baczkowicz.pl/mqtt-spy/common" />
+	<xs:import namespace="http://baczkowicz.pl/mqtt-spy/daemon/configuration" />
+		
+	<xs:complexType name="DaemonJmsConnectionDetails">
+		<xs:sequence>
+			<xs:element name="ConnectionFactory" 	type="msgspydc:JmsConnectionFactory" 	minOccurs="1" maxOccurs="1"/>
+			<xs:element name="Subscription"			type="spycommon:ScriptedSubscriptionDetails" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="Formatter" 			type="xs:IDREF" 						minOccurs="0" maxOccurs="1" />
+			<xs:element name="BackgroundScript"		type="spycommon:ScriptDetails"			minOccurs="0" maxOccurs="unbounded" />			
+		   	<xs:element name="TestCases"			type="spycommon:TestCasesSettings"		minOccurs="0" maxOccurs="1" />
+		   	<xs:element name="RunningMode"			type="spycommon:RunningMode" 			minOccurs="0" maxOccurs="1" />
+		</xs:sequence>	
+	</xs:complexType>
+	
+	<xs:complexType name="DaemonKinesisConnectionDetails">
+		<xs:sequence>
+			<xs:element name="Endpoint" 			type="xs:string" 						minOccurs="1" maxOccurs="1"/>
+			<xs:element name="RegionId"				type="xs:string" 						minOccurs="1" maxOccurs="1" />
+			<xs:element name="BackgroundScript"		type="spycommon:ScriptDetails"			minOccurs="0" maxOccurs="unbounded" />			
+		   	<xs:element name="TestCases"			type="spycommon:TestCasesSettings"		minOccurs="0" maxOccurs="1" />
+			<xs:element name="RunningMode"			type="spycommon:RunningMode" 			minOccurs="0" maxOccurs="1" />
+		</xs:sequence>	
+	</xs:complexType>
+	
+	<xs:complexType name="DaemonStompConnectionDetails">
+		<xs:sequence>
+			<xs:element name="ServerURI" 			type="xs:string" 						minOccurs="1" maxOccurs="1"/>
+			<xs:element name="Port" 				type="xs:int" 							minOccurs="1" maxOccurs="1"/>
+			<xs:element name="UserCredentials" 		type="spycommon:UserCredentials" 		minOccurs="1" maxOccurs="1" />
+			
+			<xs:element name="Subscription"			type="spycommon:ScriptedSubscriptionDetails" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="Formatter" 			type="xs:IDREF" 						minOccurs="0" maxOccurs="1" />
+			<xs:element name="BackgroundScript"		type="spycommon:ScriptDetails"			minOccurs="0" maxOccurs="unbounded" />			
+		   	<xs:element name="TestCases"			type="spycommon:TestCasesSettings"		minOccurs="0" maxOccurs="1" />
+		   	<xs:element name="RunningMode"			type="spycommon:RunningMode" 			minOccurs="0" maxOccurs="1" />
+		</xs:sequence>	
+	</xs:complexType>
+	
+	<xs:complexType name="Connectivity">
+		<xs:choice minOccurs="1" maxOccurs="1">			
+			<xs:element name="JmsConnection" 		type="msgspydc:DaemonJmsConnectionDetails" />
+			<xs:element name="StompConnection" 		type="msgspydc:DaemonStompConnectionDetails" />
+			<xs:element name="KinesisConnection" 	type="msgspydc:DaemonKinesisConnectionDetails" />
+			<xs:element name="MqttConnection" 		type="mqttspydc:DaemonMqttConnectionDetails" />
+		</xs:choice>
+	</xs:complexType>
+	
+	<xs:complexType name="JmsContextFile">
+		<xs:sequence>
+			<xs:element name="ContextFileLocation" 		type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="ConnectionFactoryBean" 	type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="JmsTemplateBean" 			type="xs:string" minOccurs="1" maxOccurs="1"/>			
+		</xs:sequence>	
+	</xs:complexType>
+	<!-- 
+	<xs:complexType name="JmsClassBased">
+		<xs:sequence>
+			<xs:element name="ClassName" 				type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="Property" 				type="spycommon:Property" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>	
+	</xs:complexType>
+	 -->
+	<xs:complexType name="JmsConnectionFactory">
+		<xs:choice minOccurs="1" maxOccurs="1">			
+			<xs:element name="ContextFile" 		type="msgspydc:JmsContextFile" />
+			<!-- <xs:element name="ClassBased" 		type="msgspydc:JmsClassBased" /> -->
+		</xs:choice>
+	</xs:complexType>
+	
+	<xs:complexType name="MsgSpyDaemonConfiguration">
+		<xs:sequence>
+			<xs:element name="Connectivity" type="msgspydc:Connectivity" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="RemoteControl" type="msgspydc:RemoteControl" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="Formatting" type="spycommon:Formatting"	minOccurs="0" maxOccurs="1"/>			
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="RemoteControl">
+		<xs:sequence>
+			<xs:element name="HttpListener" type="msgspydc:HttpListener" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="HttpListener">
+		<xs:sequence>
+			<xs:element name="Port" type="xs:int" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:simpleType name="RunningMode">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="CONTINUOUS" />
+			<xs:enumeration value="SCRIPTS_ONLY" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<!-- ================ -->
+	<!-- === ELEMENTS === -->
+	<!-- ================ -->
+
+	<xs:element name="MsgSpyDaemonConfiguration" type="msgspydc:MsgSpyDaemonConfiguration" />
+
+</xs:schema>
