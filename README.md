@@ -1,6 +1,10 @@
+<img src="http://baczkowicz.pl/msg-spy/images/msg-spy-logo-128.png" align="left" hspace="30" vspace="5">
+
 Welcome to the msg-spy source code repository!
 
 For more information on the available functionality, see the project's wiki at https://github.com/kamilfb/msg-spy/wiki (currently under construction).
+
+<BR>
 
 The branching model (not fully in place yet) is as follows*:
 
