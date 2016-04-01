@@ -73,7 +73,10 @@ public class MsgSpyDaemonTest
 	{
 		final MessageSpyDaemon daemon = new MessageSpyDaemon();
 		
-		assertTrue(daemon.start("/home/kamil/Programming/nr-data-feeds-context.xml"));
+
+		final String config = "C:\\KBData\\Software\\mqtt-spy\\nr-feeds\\nr-data-feeds-config.xml";
+		
+		assertTrue(daemon.start(config));
 		
 		while (!daemon.canPublish())
 		{
