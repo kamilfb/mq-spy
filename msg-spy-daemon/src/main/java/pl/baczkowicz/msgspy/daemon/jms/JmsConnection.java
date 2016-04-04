@@ -32,7 +32,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.jms.core.JmsTemplate;
 
 import pl.baczkowicz.msgspy.daemon.generated.configuration.DaemonJmsConnectionDetails;
-import pl.baczkowicz.spy.common.generated.ProtocolEnum;
+import pl.baczkowicz.msgspy.daemon.generated.configuration.ProtocolEnum;
 import pl.baczkowicz.spy.common.generated.ScriptedSubscriptionDetails;
 
 public class JmsConnection implements IJmsConnection
@@ -106,7 +106,6 @@ public class JmsConnection implements IJmsConnection
 		}
 	}
 
-	@Override
 	public ProtocolEnum getProtocol()
 	{
 		return ProtocolEnum.JMS;

@@ -2,11 +2,11 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>pl.baczkowicz.spy</groupId>
-	<artifactId>mq-spy-daemon</artifactId>
+	<artifactId>msg-spy-daemon</artifactId>
 	<version>0.0.3-beta</version>
 
   	<name>mq-spy-daemon</name>
-  	<url>http://kamilfb.github.io/mq-spy/</url>
+  	<url>http://kamilfb.github.io/msg-spy/</url>
 
 	<scm>
     	<connection>scm:git:../.git</connection>
@@ -28,7 +28,7 @@
   		<dependency>
 			<groupId>pl.baczkowicz.spy</groupId>
 			<artifactId>spy-common</artifactId>
-			<version>0.1.0</version>			 
+			<version>0.2.0</version>			 
 			<exclusions>
 				<exclusion>
 					<artifactId>maven-jaxb2-plugin</artifactId>
@@ -157,7 +157,7 @@
 				<directory>src/main/resources</directory>
 				<filtering>true</filtering>
 				<includes>
-					<include>**/mq-spy-daemon.properties</include>
+					<include>**/msg-spy-daemon.properties</include>
 				</includes>
 			</resource>
 			
@@ -165,7 +165,7 @@
 				<directory>src/main/resources</directory>
 				<filtering>false</filtering>
 				<excludes>
-					<exclude>**/mq-spy-daemon.properties</exclude>
+					<exclude>**/msg-spy-daemon.properties</exclude>
 				</excludes>
 			</resource>
 			
@@ -202,7 +202,7 @@
 					</descriptorRefs>
 					<archive>
 						<manifest>
-							<mainClass>pl.baczkowicz.mqspy.daemon.Main</mainClass>
+							<mainClass>pl.baczkowicz.msgspy.daemon.Main</mainClass>
 						</manifest>
 					</archive>
 				</configuration>

@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import net.ser1.stomp.Client;
 import net.ser1.stomp.Listener;
 import pl.baczkowicz.msgspy.daemon.generated.configuration.DaemonStompConnectionDetails;
-import pl.baczkowicz.spy.common.generated.ProtocolEnum;
+import pl.baczkowicz.msgspy.daemon.generated.configuration.ProtocolEnum;
 import pl.baczkowicz.spy.common.generated.ScriptDetails;
 import pl.baczkowicz.spy.common.generated.ScriptedSubscriptionDetails;
 import pl.baczkowicz.spy.connectivity.BaseSubscription;
@@ -74,7 +74,6 @@ public class StompConnection implements IConnection, Listener
 		connection.disconnect();
 	}
 
-	@Override
 	public ProtocolEnum getProtocol()
 	{
 		return ProtocolEnum.STOMP;

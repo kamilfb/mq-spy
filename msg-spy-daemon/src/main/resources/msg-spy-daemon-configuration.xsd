@@ -124,6 +124,15 @@
 		</xs:restriction>
 	</xs:simpleType>
 	
+	<xs:simpleType name="ProtocolEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="MQTT" />
+			<xs:enumeration value="JMS" />
+			<xs:enumeration value="STOMP" />
+			<xs:enumeration value="KINESIS" />
+		</xs:restriction>
+	</xs:simpleType>	
+	
 	<!-- ================ -->
 	<!-- === ELEMENTS === -->
 	<!-- ================ -->

@@ -33,7 +33,7 @@ import pl.baczkowicz.msgspy.daemon.generated.configuration.DaemonJmsConnectionDe
 import pl.baczkowicz.msgspy.daemon.generated.configuration.DaemonKinesisConnectionDetails;
 import pl.baczkowicz.msgspy.daemon.generated.configuration.DaemonStompConnectionDetails;
 import pl.baczkowicz.msgspy.daemon.generated.configuration.MsgSpyDaemonConfiguration;
-import pl.baczkowicz.spy.common.generated.ProtocolEnum;
+import pl.baczkowicz.msgspy.daemon.generated.configuration.ProtocolEnum;
 import pl.baczkowicz.spy.configuration.PropertyFileLoader;
 import pl.baczkowicz.spy.exceptions.XMLException;
 import pl.baczkowicz.spy.xml.XMLParser;

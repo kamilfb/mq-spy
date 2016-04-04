@@ -4,7 +4,7 @@ import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.services.kinesis.AmazonKinesisClient;
 
 import pl.baczkowicz.msgspy.daemon.generated.configuration.DaemonKinesisConnectionDetails;
-import pl.baczkowicz.spy.common.generated.ProtocolEnum;
+import pl.baczkowicz.msgspy.daemon.generated.configuration.ProtocolEnum;
 import pl.baczkowicz.spy.connectivity.IConnection;
 import pl.baczkowicz.spy.scripts.BaseScriptManager;
 
@@ -14,8 +14,7 @@ public class KinesisConnection implements IConnection
 	private AmazonKinesisClient client;
 	
 	private BaseScriptManager scriptManager;
-	
-	@Override
+
 	public ProtocolEnum getProtocol()
 	{
 		return ProtocolEnum.KINESIS;

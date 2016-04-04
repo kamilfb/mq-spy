@@ -32,6 +32,7 @@ import pl.baczkowicz.msgspy.daemon.generated.configuration.DaemonJmsConnectionDe
 import pl.baczkowicz.msgspy.daemon.generated.configuration.DaemonKinesisConnectionDetails;
 import pl.baczkowicz.msgspy.daemon.generated.configuration.DaemonStompConnectionDetails;
 import pl.baczkowicz.msgspy.daemon.generated.configuration.MsgSpyDaemonConfiguration;
+import pl.baczkowicz.msgspy.daemon.generated.configuration.ProtocolEnum;
 import pl.baczkowicz.msgspy.daemon.jms.JmsConnection;
 import pl.baczkowicz.msgspy.daemon.kinesis.KinesisConnection;
 import pl.baczkowicz.msgspy.daemon.kinesis.KinesisScriptIO;
@@ -41,7 +42,6 @@ import pl.baczkowicz.msgspy.daemon.stomp.StompScriptIO;
 import pl.baczkowicz.msgspy.daemon.stomp.StompScriptManager;
 import pl.baczkowicz.msgspy.scripts.JmsScriptIO;
 import pl.baczkowicz.msgspy.scripts.JmsScriptManager;
-import pl.baczkowicz.spy.common.generated.ProtocolEnum;
 import pl.baczkowicz.spy.configuration.BasePropertyNames;
 import pl.baczkowicz.spy.eventbus.IKBus;
 import pl.baczkowicz.spy.eventbus.KBus;
