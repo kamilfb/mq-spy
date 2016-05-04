@@ -34,12 +34,12 @@ import pl.baczkowicz.msgspy.daemon.generated.configuration.DaemonStompConnection
 import pl.baczkowicz.msgspy.daemon.generated.configuration.MsgSpyDaemonConfiguration;
 import pl.baczkowicz.msgspy.daemon.generated.configuration.ProtocolEnum;
 import pl.baczkowicz.msgspy.daemon.jms.JmsConnection;
-import pl.baczkowicz.msgspy.daemon.kinesis.KinesisConnection;
-import pl.baczkowicz.msgspy.daemon.kinesis.KinesisScriptIO;
 import pl.baczkowicz.msgspy.daemon.remote.HttpListener;
 import pl.baczkowicz.msgspy.daemon.stomp.StompConnection;
 import pl.baczkowicz.msgspy.daemon.stomp.StompScriptIO;
 import pl.baczkowicz.msgspy.daemon.stomp.StompScriptManager;
+import pl.baczkowicz.msgspy.protocols.kinesis.KinesisConnection;
+import pl.baczkowicz.msgspy.protocols.kinesis.KinesisScriptIO;
 import pl.baczkowicz.msgspy.scripts.JmsScriptIO;
 import pl.baczkowicz.msgspy.scripts.JmsScriptManager;
 import pl.baczkowicz.spy.configuration.BasePropertyNames;
@@ -85,9 +85,9 @@ public class MessageSpyDaemon extends MqttSpyDaemon
 	protected void showInfo()
 	{
 		logger.info("#######################################################");
-		logger.info("### Starting message-spy-daemon v{}", loader.getFullVersionName());
+		logger.info("### Starting msg-spy-daemon v{}", loader.getFullVersionName());
 		logger.info("### If you find it useful, see how you can help at {}", loader.getProperty(BasePropertyNames.DOWNLOAD_URL));
-		logger.info("### To get release updates follow @mqtt_spy on Twitter ");
+		logger.info("### To get release updates follow @msg_spy on Twitter ");
 		logger.info("#######################################################");
 	}
 	
@@ -185,7 +185,7 @@ public class MessageSpyDaemon extends MqttSpyDaemon
 		// kinesisConnection.setScriptManager(scriptManager);
 		// testCaseManager = new TestCaseManager(scriptManager);
 		
-		// kinesisConnection.initialise();
+		// kinesisConnection.initialise(true);
 	}
 
 	public boolean canPublish()
@@ -243,7 +243,7 @@ public class MessageSpyDaemon extends MqttSpyDaemon
 
 	public KinesisScriptIO kinesis()
 	{
-		return new KinesisScriptIO(kinesisConnection, eventBus, null, null);
+		return new KinesisScriptIO(kinesisConnection, null, null);
 	}
 	
 	public MqttScriptIO mqtt()

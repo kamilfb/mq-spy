@@ -25,7 +25,6 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import pl.baczkowicz.msgspy.daemon.MessageSpyDaemon;
 import pl.baczkowicz.spy.utils.ThreadingUtils;
 
 public class MsgSpyDaemonTest
@@ -57,54 +56,7 @@ public class MsgSpyDaemonTest
 		
 		assertTrue(daemon.start("src/test/resources/test_configurations/basic-jms-configuration.xml"));
 		
-//		while (!daemon.canPublish())
-//		{
-//			logger.debug("Client not connected yet - can't start test cases... [waiting another 1000ms]");
-//			ThreadingUtils.sleep(1000);
-//		}
-		
 		ThreadingUtils.sleep(15000);
-		
-		daemon.stop();
-	}
-	
-	@Test
-	public void testNrDataFeedsStompConfiguration()
-	{
-		final MessageSpyDaemon daemon = new MessageSpyDaemon();
-		
-
-		final String config = "C:\\KBData\\Software\\mqtt-spy\\nr-feeds\\nr-data-feeds-config.xml";
-		
-		assertTrue(daemon.start(config));
-		
-		while (!daemon.canPublish())
-		{
-			logger.debug("Client not connected yet [waiting another 1000ms]");
-			ThreadingUtils.sleep(1000);
-		}
-		
-		ThreadingUtils.sleep(120000);
-		
-		daemon.stop();
-	}
-	
-	@Test
-	public void testNrDataFeedsKinesisConfiguration()
-	{
-		final MessageSpyDaemon daemon = new MessageSpyDaemon();
-		
-		final String config = "C:\\KBData\\Software\\mqtt-spy\\nr-feeds\\nr-data-feeds-config-kinesis.xml";
-		
-		assertTrue(daemon.start(config));
-		
-		while (!daemon.canPublish())
-		{
-			logger.debug("Client not connected yet [waiting another 1000ms]");
-			ThreadingUtils.sleep(1000);
-		}
-		
-		ThreadingUtils.sleep(1200000);
 		
 		daemon.stop();
 	}

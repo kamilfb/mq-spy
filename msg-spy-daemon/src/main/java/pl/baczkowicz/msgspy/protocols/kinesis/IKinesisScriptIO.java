@@ -1,4 +1,4 @@
-package pl.baczkowicz.msgspy.daemon.kinesis;
+package pl.baczkowicz.msgspy.protocols.kinesis;
 
 import java.nio.ByteBuffer;
 import java.util.List;
@@ -20,4 +20,8 @@ public interface IKinesisScriptIO extends IScriptIO
 	PutRecordResult publish(final String streamName, final String partitionKey, final String prevSequenceNumber, final ByteBuffer payload);
 
 	PutRecordsResult publish(final String streamName, final List<Entry<String, ByteBuffer>> records);
+	
+	void subscribe(final String streamName, final String iteratorType, final IKinesisOnMessageHandler handler, final boolean autoStart);
+	
+	void readStreams();
 }

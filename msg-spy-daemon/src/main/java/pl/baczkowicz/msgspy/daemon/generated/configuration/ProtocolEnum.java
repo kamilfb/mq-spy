@@ -13,32 +13,36 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for RunningMode.
+ * <p>Java class for ProtocolEnum.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * <p>
  * <pre>
- * &lt;simpleType name="RunningMode"&gt;
+ * &lt;simpleType name="ProtocolEnum"&gt;
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string"&gt;
- *     &lt;enumeration value="CONTINUOUS"/&gt;
- *     &lt;enumeration value="SCRIPTS_ONLY"/&gt;
+ *     &lt;enumeration value="MQTT"/&gt;
+ *     &lt;enumeration value="JMS"/&gt;
+ *     &lt;enumeration value="STOMP"/&gt;
+ *     &lt;enumeration value="KINESIS"/&gt;
  *   &lt;/restriction&gt;
  * &lt;/simpleType&gt;
  * </pre>
  * 
  */
-@XmlType(name = "RunningMode")
+@XmlType(name = "ProtocolEnum")
 @XmlEnum
-public enum RunningMode {
+public enum ProtocolEnum {
 
-    CONTINUOUS,
-    SCRIPTS_ONLY;
+    MQTT,
+    JMS,
+    STOMP,
+    KINESIS;
 
     public String value() {
         return name();
     }
 
-    public static RunningMode fromValue(String v) {
+    public static ProtocolEnum fromValue(String v) {
         return valueOf(v);
     }
 
