@@ -2,11 +2,11 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>pl.baczkowicz.spy</groupId>
-	<artifactId>mq-spy-ui</artifactId>
+	<artifactId>msg-spy-ui</artifactId>
 	<version>0.0.1-beta</version>
 
-  	<name>mq-spy-ui</name>
-  	<url>http://kamilfb.github.io/mq-spy/</url>
+  	<name>msg-spy-ui</name>
+  	<url>http://kamilfb.github.io/msg-spy/</url>
 
   	<scm>
     	<connection>scm:git:../.git</connection>
@@ -25,10 +25,10 @@
 	
   <dependencies>
   		
-		<dependency>
-			<groupId>pl.baczkowicz.mqttspy</groupId>
-			<artifactId>mqtt-spy-common</artifactId>
-			<version>0.0.13</version>			 
+  		<dependency>
+			<groupId>pl.baczkowicz.spy</groupId>
+			<artifactId>spy-common</artifactId>
+			<version>0.3.0</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>maven-jaxb2-plugin</artifactId>
@@ -36,6 +36,54 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		
+		<dependency>
+			<groupId>pl.baczkowicz.spy</groupId>
+			<artifactId>spy-common-ui</artifactId>
+			<version>0.1.0</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>maven-jaxb2-plugin</artifactId>
+					<groupId>org.jvnet.jaxb2.maven2</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		
+		<dependency>
+			<groupId>pl.baczkowicz.mqttspy</groupId>
+			<artifactId>mqtt-spy-common</artifactId>
+			<version>0.2.0</version>			 
+			<exclusions>
+				<exclusion>
+					<artifactId>maven-jaxb2-plugin</artifactId>
+					<groupId>org.jvnet.jaxb2.maven2</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		
+		<dependency>
+			<groupId>pl.baczkowicz.mqttspy</groupId>
+			<artifactId>mqtt-spy</artifactId>
+			<version>0.6.0-beta</version>			 
+			<exclusions>
+				<exclusion>
+					<artifactId>maven-jaxb2-plugin</artifactId>
+					<groupId>org.jvnet.jaxb2.maven2</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		
+		<dependency>
+			<groupId>pl.baczkowicz.spy</groupId>
+			<artifactId>msg-spy-daemon</artifactId>
+			<version>0.0.3-beta</version>
+		</dependency>
+
+	<dependency>
+		<groupId>com.google.api-client</groupId>
+		<artifactId>google-api-client</artifactId>
+		<version>1.20.0</version>
+	</dependency>
 
 		<!--=== TEST === -->
 	
@@ -78,7 +126,7 @@
 				<directory>src/main/resources</directory>
 				<filtering>true</filtering>
 				<includes>
-					<include>**/mq-spy-ui.properties</include>
+					<include>**/msg-spy-ui.properties</include>
 				</includes>
 			</resource>
 			
@@ -86,7 +134,7 @@
 				<directory>src/main/resources</directory>
 				<filtering>false</filtering>
 				<excludes>
-					<exclude>**/mq-spy-ui.properties</exclude>
+					<exclude>**/msg-spy-ui.properties</exclude>
 				</excludes>
 			</resource>
 			
@@ -123,7 +171,7 @@
 					</descriptorRefs>
 					<archive>
 						<manifest>
-							<mainClass>pl.baczkowicz.mqspy.ui.Main</mainClass>
+							<mainClass>pl.baczkowicz.msgspy.ui.Main</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
@@ -182,18 +230,33 @@
 			            <configuration>
 			                <schemaDirectory>src/main/resources/</schemaDirectory>
 			                <schemaIncludes>
-			                    <include>mqtt-spy-daemon-configuration.xsd</include>
+			                    <include>msg-spy-ui-configuration.xsd</include>
 			                </schemaIncludes>			                 
 			                <generateDirectory>src/main/java/</generateDirectory>			                
-			                <generatePackage>pl.baczkowicz.mqspy.ui.generated.configuration</generatePackage>
+			                <generatePackage>pl.baczkowicz.msgspy.ui.generated.configuration</generatePackage>
 			                <removeOldOutput>false</removeOldOutput>
 			                
+			                <strict>false</strict>
 			                <catalogs>
 			                	<catalog>
 			                		<dependencyResource>
 			                			<groupId>pl.baczkowicz.mqttspy</groupId>
 			                			<artifactId>mqtt-spy-common</artifactId>
 			                			<resource>mqtt-spy-common.catalog</resource>
+			                		</dependencyResource>
+			                	</catalog>
+			                	<catalog>
+			                		<dependencyResource>
+			                			<groupId>pl.baczkowicz.spy</groupId>
+			                			<artifactId>spy-common</artifactId>
+			                			<resource>spy-common.catalog</resource>
+			                		</dependencyResource>
+			                	</catalog>
+     				            <catalog>
+			                		<dependencyResource>
+			                			<groupId>pl.baczkowicz.mqttspy</groupId>
+			                			<artifactId>mqtt-spy</artifactId>
+			                			<resource>mqtt-spy.catalog</resource>
 			                		</dependencyResource>
 			                	</catalog>
 			                </catalogs>
@@ -205,13 +268,24 @@
 			                		<groupId>pl.baczkowicz.mqttspy</groupId>
 			                		<artifactId>mqtt-spy-common</artifactId>
 			                	</episode>
+			                	<episode>
+			                		<groupId>pl.baczkowicz.spy</groupId>
+			                		<artifactId>spy-common</artifactId>
+			                	</episode>
+			                	<episode>
+			                		<groupId>pl.baczkowicz.mqttspy</groupId>
+			                		<artifactId>mqtt-spy</artifactId>
+			                	</episode>
 			                </episodes>
-			                
+			                <!-- 
 			                <args>			                
 						        <arg>-XtoString</arg>
 						        <arg>-Xequals</arg>
-						        <arg>-XhashCode</arg>						        			    
-			                </args>						 
+						        <arg>-XhashCode</arg>						        
+                    			<arg>-Xcopyable</arg>		
+                    			<arg>-Xvalue-constructor</arg>			    
+			                </args>
+			                 -->						 
 			                <plugins>
 								<plugin>
 									<groupId>org.jvnet.jaxb2_commons</groupId>
@@ -219,6 +293,7 @@
 									<version>0.9.4</version>
 								</plugin>
 							</plugins>
+							
 			            </configuration>			            			          
 			        </execution>			              
 			        
@@ -241,7 +316,7 @@
 	           <configuration>
 	           		<basedir>src/main/java</basedir>
                     <includes>
-						<include>pl/baczkowicz/mqspy/ui/generated/configuration/**/*.java</include>
+						<include>pl/baczkowicz/msgspy/ui/generated/**/**/*.java</include>
                     </includes>
                     <replacements>   
                         <replacement>
