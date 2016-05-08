@@ -1,6 +1,6 @@
 package pl.baczkowicz.msgspy.daemon.kinesis;
 
-import com.amazonaws.auth.profile.ProfileCredentialsProvider;
+import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.services.kinesis.AmazonKinesisClient;
 
 import pl.baczkowicz.msgspy.daemon.generated.configuration.DaemonKinesisConnectionDetails;
@@ -28,7 +28,7 @@ public class KinesisConnection implements IConnection
 
 	public void configure(final DaemonKinesisConnectionDetails connectionSettings)
 	{
-		client = new AmazonKinesisClient(new ProfileCredentialsProvider());
+		client = new AmazonKinesisClient(new DefaultAWSCredentialsProviderChain());
 		client.setEndpoint(connectionSettings.getEndpoint(), "kinesis", connectionSettings.getRegionId());
 	}
 	
