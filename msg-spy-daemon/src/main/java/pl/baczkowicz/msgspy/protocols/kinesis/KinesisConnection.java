@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.amazonaws.auth.profile.ProfileCredentialsProvider;
+import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.services.kinesis.AmazonKinesisClient;
 import com.amazonaws.services.kinesis.model.DescribeStreamResult;
 import com.amazonaws.services.kinesis.model.GetRecordsRequest;
@@ -53,7 +53,7 @@ public class KinesisConnection implements IConnection, Runnable
 
 	public void configure(final DaemonKinesisConnectionDetails connectionSettings)
 	{
-		client = new AmazonKinesisClient(new ProfileCredentialsProvider());
+		client = new AmazonKinesisClient(new DefaultAWSCredentialsProviderChain());
 		client.setEndpoint(connectionSettings.getEndpoint(), "kinesis", connectionSettings.getRegionId());
 
 	}

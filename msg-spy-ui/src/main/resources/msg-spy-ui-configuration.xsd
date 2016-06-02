@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/***********************************************************************************
+ * 
+ * Copyright (c) 2014 Kamil Baczkowicz
+ * 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * and Eclipse Distribution License v1.0 which accompany this distribution.
+ *
+ * The Eclipse Public License is available at
+ *    http://www.eclipse.org/legal/epl-v10.html
+ *    
+ * The Eclipse Distribution License is available at
+ *   http://www.eclipse.org/org/documents/edl-v10.php
+ *
+ * Contributors:
+ * 
+ *    Kamil Baczkowicz - initial API and implementation and/or initial documentation
+ *    
+ */
+-->
+<xs:schema 	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+			xmlns:config="http://baczkowicz.pl/msg-spy-ui-configuration"
+			xmlns:mqttspyconfig="http://baczkowicz.pl/mqtt-spy-configuration"
+			xmlns:spycommon="http://baczkowicz.pl/spy/common"
+			xmlns:mqttspycommon="http://baczkowicz.pl/mqtt-spy/common"
+			targetNamespace="http://baczkowicz.pl/msg-spy-ui-configuration">
+
+	<xs:import namespace="http://baczkowicz.pl/spy/common" />
+	<xs:import namespace="http://baczkowicz.pl/mqtt-spy/common" />
+	<xs:import namespace="http://baczkowicz.pl/mqtt-spy-configuration" />
+
+	<xs:complexType name="MsgSpyConfiguration">
+		<xs:sequence>
+			<xs:element name="ConnectionGroups" type="spycommon:ConnectionGroup" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="Connectivity" type="config:Connectivity" />
+			<xs:element name="Formatting" 	type="spycommon:Formatting"	minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!-- ==================== -->
+	<!-- === COMMON ========= -->
+	<!-- ==================== -->
+			
+	<!-- ==================== -->
+	<!-- === CONNECTIVITY === -->
+	<!-- ==================== -->
+	
+	<xs:complexType name="Connectivity">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">			
+			<xs:element name="MqttConnection" type="mqttspyconfig:UserInterfaceMqttConnectionDetails" />
+		</xs:choice>
+	</xs:complexType>
+	
+	<!-- ================ -->
+	<!-- === ELEMENTS === -->
+	<!-- ================ -->
+
+	<xs:element name="MsgSpyConfiguration" type="config:MsgSpyConfiguration" />
+
+</xs:schema>

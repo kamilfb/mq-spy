@@ -1,4 +1,4 @@
-package pl.baczkowicz.msgspy.daemon.aws;
+package pl.baczkowicz.msgspy.protocols.kinesis.handlers.samples;
 
 import java.io.IOException;
 
