@@ -17,7 +17,7 @@
  *    Kamil Baczkowicz - initial API and implementation and/or initial documentation
  *    
  */
-package pl.baczkowicz.msgspy.daemon.stomp;
+package pl.baczkowicz.msgspy.protocols.stomp;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -60,12 +60,8 @@ public class StompScriptManager extends BaseScriptManager
 		
 		final Map<String, Object> scriptVariables = new HashMap<String, Object>();
 		
-		// This should be considered deprecated
-		//scriptVariables.put("mqspy", scriptIO);
 		// This should be used for general script-related actions
 		scriptVariables.put("spy", scriptIO);
-		// Going forward, this should only have mqtt-specific elements, e.g. pub/sub
-		//scriptVariables.put("mqtt", scriptIO);
 		
 		scriptVariables.put("logger", LoggerFactory.getLogger(ScriptRunner.class));
 		

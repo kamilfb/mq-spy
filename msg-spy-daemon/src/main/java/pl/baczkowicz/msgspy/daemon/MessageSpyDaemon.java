@@ -35,14 +35,16 @@ import pl.baczkowicz.msgspy.daemon.generated.configuration.MsgSpyDaemonConfigura
 import pl.baczkowicz.msgspy.daemon.generated.configuration.ProtocolEnum;
 import pl.baczkowicz.msgspy.daemon.jms.JmsConnection;
 import pl.baczkowicz.msgspy.daemon.remote.HttpListener;
-import pl.baczkowicz.msgspy.daemon.stomp.StompConnection;
-import pl.baczkowicz.msgspy.daemon.stomp.StompScriptIO;
-import pl.baczkowicz.msgspy.daemon.stomp.StompScriptManager;
 import pl.baczkowicz.msgspy.protocols.kinesis.KinesisConnection;
 import pl.baczkowicz.msgspy.protocols.kinesis.KinesisScriptIO;
+import pl.baczkowicz.msgspy.protocols.kinesis.KinesisScriptManager;
+import pl.baczkowicz.msgspy.protocols.stomp.StompConnection;
+import pl.baczkowicz.msgspy.protocols.stomp.StompScriptIO;
+import pl.baczkowicz.msgspy.protocols.stomp.StompScriptManager;
 import pl.baczkowicz.msgspy.scripts.JmsScriptIO;
 import pl.baczkowicz.msgspy.scripts.JmsScriptManager;
 import pl.baczkowicz.spy.configuration.BasePropertyNames;
+import pl.baczkowicz.spy.connectivity.ReconnectionManager;
 import pl.baczkowicz.spy.eventbus.IKBus;
 import pl.baczkowicz.spy.eventbus.KBus;
 import pl.baczkowicz.spy.exceptions.SpyException;
@@ -69,6 +71,8 @@ public class MessageSpyDaemon extends MqttSpyDaemon
 	private KinesisConnection kinesisConnection;
 	
 	private IKBus eventBus = new KBus();
+
+	private ReconnectionManager stompReconnectionManager;
 	
 	/**
 	 * This is an internal method - initialises the daemon class.
@@ -171,18 +175,26 @@ public class MessageSpyDaemon extends MqttSpyDaemon
 		scriptManager = new StompScriptManager(eventBus, null, stompConnection);
 		stompConnection.setScriptManager(scriptManager);
 		
+		stompReconnectionManager = new ReconnectionManager();
+		stompReconnectionManager.addConnection(stompConnection, stompConnection);
+		
 		testCaseManager = new TestCaseManager(scriptManager);
 		
 		stompConnection.connect();
+		
+		if (stompConnection.getReconnectionSettings() != null)
+		{
+			new Thread(stompReconnectionManager).start();
+		}
 	}
 	
 	private void configureKinesis(final DaemonKinesisConnectionDetails connectionSettings)
 	{	
-		kinesisConnection = new KinesisConnection(); 
+		kinesisConnection = new KinesisConnection(); 				
+		scriptManager = new KinesisScriptManager(eventBus, null, kinesisConnection);
+		kinesisConnection.setScriptManager(scriptManager);		
 		kinesisConnection.configure(connectionSettings);
 		
-		// scriptManager = new StompScriptManager(eventBus, null, kinesisConnection);
-		// kinesisConnection.setScriptManager(scriptManager);
 		// testCaseManager = new TestCaseManager(scriptManager);
 		
 		// kinesisConnection.initialise(true);
@@ -223,6 +235,7 @@ public class MessageSpyDaemon extends MqttSpyDaemon
 		}
 		else if (ProtocolEnum.STOMP.equals(loader.getProtocol()))
 		{
+			stompReconnectionManager.stop();
 			stompConnection.stopStomp();
 		}
 		

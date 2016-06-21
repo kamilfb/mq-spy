@@ -46,6 +46,9 @@
 		<xs:sequence>
 			<xs:element name="Endpoint" 			type="xs:string" 						minOccurs="1" maxOccurs="1"/>
 			<xs:element name="RegionId"				type="xs:string" 						minOccurs="1" maxOccurs="1" />
+			
+			<xs:element name="Subscription"			type="spycommon:ScriptedSubscriptionDetails" minOccurs="0" maxOccurs="unbounded" />
+			
 			<xs:element name="BackgroundScript"		type="spycommon:ScriptDetails"			minOccurs="0" maxOccurs="unbounded" />			
 		   	<xs:element name="TestCases"			type="spycommon:TestCasesSettings"		minOccurs="0" maxOccurs="1" />
 			<xs:element name="RunningMode"			type="spycommon:RunningMode" 			minOccurs="0" maxOccurs="1" />
@@ -57,6 +60,8 @@
 			<xs:element name="ServerURI" 			type="xs:string" 						minOccurs="1" maxOccurs="1"/>
 			<xs:element name="Port" 				type="xs:int" 							minOccurs="1" maxOccurs="1"/>
 			<xs:element name="UserCredentials" 		type="spycommon:UserCredentials" 		minOccurs="1" maxOccurs="1" />
+			
+			<xs:element name="ReconnectionSettings" type="spycommon:ReconnectionSettings" 	minOccurs="0" maxOccurs="1" />		
 			
 			<xs:element name="Subscription"			type="spycommon:ScriptedSubscriptionDetails" minOccurs="0" maxOccurs="unbounded" />
 			<xs:element name="Formatter" 			type="xs:IDREF" 						minOccurs="0" maxOccurs="1" />

@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.services.kinesis.AmazonKinesisClient;
 import com.amazonaws.services.kinesis.model.DescribeStreamResult;
@@ -24,10 +27,18 @@ import com.amazonaws.services.kinesis.model.Shard;
 
 import pl.baczkowicz.msgspy.daemon.generated.configuration.DaemonKinesisConnectionDetails;
 import pl.baczkowicz.msgspy.daemon.generated.configuration.ProtocolEnum;
+import pl.baczkowicz.spy.common.generated.ScriptDetails;
+import pl.baczkowicz.spy.common.generated.ScriptedSubscriptionDetails;
+import pl.baczkowicz.spy.connectivity.BaseSubscription;
 import pl.baczkowicz.spy.connectivity.IConnection;
+import pl.baczkowicz.spy.scripts.BaseScriptManager;
+import pl.baczkowicz.spy.scripts.Script;
 
 public class KinesisConnection implements IConnection, Runnable
 {
+	/** Diagnostic logger. */
+	private final static Logger logger = LoggerFactory.getLogger(KinesisConnection.class);
+	
 	/** AWS Kinesis Client. */
 	private AmazonKinesisClient client;
 	
@@ -39,6 +50,8 @@ public class KinesisConnection implements IConnection, Runnable
 	private Map<String, Map<String, String>> streamIterators = new HashMap<>();
 
 	private boolean initialised;
+
+	private BaseScriptManager scriptManager;
 
 	public ProtocolEnum getProtocol()
 	{
@@ -55,6 +68,13 @@ public class KinesisConnection implements IConnection, Runnable
 	{
 		client = new AmazonKinesisClient(new DefaultAWSCredentialsProviderChain());
 		client.setEndpoint(connectionSettings.getEndpoint(), "kinesis", connectionSettings.getRegionId());
+		
+		for (final ScriptedSubscriptionDetails subscriptionDetails : connectionSettings.getSubscription())
+		{
+			final BaseSubscription subscription = new BaseSubscription(subscriptionDetails.getTopic());
+			subscription.setDetails(subscriptionDetails);
+			subscribe(subscription);
+		}
 
 	}
 
@@ -107,7 +127,29 @@ public class KinesisConnection implements IConnection, Runnable
 //	{
 //		this.scriptManager = scriptManager;	
 //	}
-	
+
+	private void subscribe(final BaseSubscription subscription)
+	{
+		logger.info("Subscribing...");
+		subscribe(subscription.getTopic(), "LATEST", new KinesisCallback(scriptManager, subscription), true);
+		logger.info("Subscribed to " + subscription.getTopic());
+		
+		if (subscription.getDetails() != null 
+				&& subscription.getDetails().getScriptFile() != null 
+				&& !subscription.getDetails().getScriptFile().isEmpty())
+		{
+			final Script script = scriptManager.addScript(new ScriptDetails(false, false, subscription.getDetails().getScriptFile()));
+			subscription.setScript(script);
+			scriptManager.runScript(script, false);
+			
+			if (scriptManager.invokeBefore(script))					
+			{
+				subscription.setScriptActive(true);
+			}
+		}
+		
+	}
+
 	public void subscribe(final String streamName, final String iteratorType, final IKinesisOnMessageHandler handler, boolean autoStart)
 	{
 		initialiseStream(streamName, iteratorType);
@@ -222,5 +264,10 @@ public class KinesisConnection implements IConnection, Runnable
 	{
 		final KinesisHandlerOnMessageContext context = new KinesisHandlerOnMessageContext(getRecords(streamName, limit));
 		handlers.get(streamName).onMessage(context);
+	}
+	
+	public void setScriptManager(final BaseScriptManager scriptManager)
+	{
+		this.scriptManager = scriptManager;		
 	}
 }

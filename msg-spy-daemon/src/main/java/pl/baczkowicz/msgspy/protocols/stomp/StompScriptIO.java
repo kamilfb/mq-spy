@@ -17,14 +17,13 @@
  *    Kamil Baczkowicz - initial API and implementation and/or initial documentation
  *    
  */
-package pl.baczkowicz.msgspy.daemon.stomp;
+package pl.baczkowicz.msgspy.protocols.stomp;
 
 import java.util.concurrent.Executor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import pl.baczkowicz.msgspy.daemon.jms.IJmsConnection;
 import pl.baczkowicz.spy.eventbus.IKBus;
 import pl.baczkowicz.spy.scripts.Script;
 import pl.baczkowicz.spy.scripts.ScriptIO;

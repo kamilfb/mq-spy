@@ -1,4 +1,4 @@
-package pl.baczkowicz.msgspy.daemon.stomp;
+package pl.baczkowicz.msgspy.protocols.stomp;
 
 import java.util.Map;
 
